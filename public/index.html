@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruitr - Athlete Management</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-medal"></i> Recruitr</h1>
+                <p>Wrestling Athlete Management System</p>
+            </div>
+        </header>
+
+        <!-- Controls Section -->
+        <div class="controls">
+            <div class="search-section">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search athletes by name..." />
+                    <button id="searchBtn" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="stateFilter">State:</label>
+                        <select id="stateFilter">
+                            <option value="">All States</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="teamFilter">Team:</label>
+                        <select id="teamFilter">
+                            <option value="">All Teams</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="yearFilter">Year:</label>
+                        <select id="yearFilter">
+                            <option value="">All Years</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="weightClassFilter">Weight Class:</label>
+                        <select id="weightClassFilter">
+                            <option value="">All Weight Classes</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="divisionFilter">Division:</label>
+                        <select id="divisionFilter">
+                            <option value="">All Divisions</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button id="clearFiltersBtn" class="btn btn-secondary">Clear Filters</button>
+                </div>
+            </div>
+
+            <div class="sort-section">
+                <div class="sort-controls">
+                    <label for="sortBy">Sort by:</label>
+                    <select id="sortBy">
+                        <option value="name">Name</option>
+                        <option value="overallWinRate">Overall Win Rate</option>
+                        <option value="totalWins">Total Wins</option>
+                        <option value="totalSeasons">Total Seasons</option>
+                        <option value="bestPlacement">Best Placement</option>
+                        <option value="winRateImprovement">Win Rate Improvement</option>
+                        <option value="placementImprovement">Placement Improvement</option>
+                        <option value="improvementTrend">Improvement Trend</option>
+                        <option value="totalPoints">Total Points</option>
+                        <option value="averagePoints">Average Points</option>
+                        <option value="mostRecentYear">Most Recent Year</option>
+                    </select>
+                    
+                    <label for="sortOrder">Order:</label>
+                    <select id="sortOrder">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tournament Scraper Section -->
+        <div class="scraper-section">
+            <div class="scraper-header">
+                <h3><i class="fas fa-download"></i> Add Tournament Data</h3>
+                <p>Scrape wrestling tournament data and add it to the database</p>
+            </div>
+            
+            <div class="scraper-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tournamentId">Tournament ID <span class="required">*</span></label>
+                        <input type="text" id="tournamentId" placeholder="e.g., 854866132" required>
+                        <small class="form-help">Found in the Track Wrestling tournament URL</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tournamentYear">Year</label>
+                        <input type="number" id="tournamentYear" placeholder="2025" min="2020" max="2030">
+                        <small class="form-help">Defaults to current year</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="tournamentState">State</label>
+                        <input type="text" id="tournamentState" placeholder="UT" maxlength="2">
+                        <small class="form-help">2-letter state code (optional)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button id="scrapeTournamentBtn" class="btn btn-primary">
+                            <i class="fas fa-download"></i> Scrape Tournament
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scraping Progress -->
+            <div id="scrapingProgress" class="scraping-progress" style="display: none;">
+                <div class="progress-header">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span id="progressText">Initializing scraper...</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div class="progress-details" id="progressDetails"></div>
+            </div>
+            
+            <!-- Scraping Results -->
+            <div id="scrapingResults" class="scraping-results" style="display: none;">
+                <div class="results-header">
+                    <i id="resultsIcon" class="fas fa-check-circle"></i>
+                    <h4 id="resultsTitle">Scraping Complete</h4>
+                </div>
+                <div id="resultsContent" class="results-content"></div>
+                <div class="results-actions">
+                    <button id="viewNewDataBtn" class="btn btn-primary">
+                        <i class="fas fa-eye"></i> View New Data
+                    </button>
+                    <button id="scrapeAnotherBtn" class="btn btn-secondary">
+                        <i class="fas fa-plus"></i> Scrape Another Tournament
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <i class="fas fa-users"></i>
+                <div class="stat-info">
+                    <div class="stat-number" id="totalAthletes">0</div>
+                    <div class="stat-label">Total Athletes</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-trophy"></i>
+                <div class="stat-info">
+                    <div class="stat-number" id="totalSeasons">0</div>
+                    <div class="stat-label">Total Seasons</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-eye"></i>
+                <div class="stat-info">
+                    <div class="stat-number" id="displayedAthletes">0</div>
+                    <div class="stat-label">Displayed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section">
+            <div class="results-header">
+                <h2>Athletes</h2>
+                <div class="view-toggle">
+                    <button id="cardViewBtn" class="btn btn-small active">
+                        <i class="fas fa-th-large"></i> Cards
+                    </button>
+                    <button id="tableViewBtn" class="btn btn-small">
+                        <i class="fas fa-table"></i> Table
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading athletes...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>Error loading athletes. Please try again.</p>
+                <button id="retryBtn" class="btn btn-primary">Retry</button>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <i class="fas fa-search"></i>
+                <p>No athletes found matching your criteria.</p>
+            </div>
+
+            <!-- Card View -->
+            <div id="cardView" class="card-view">
+                <!-- Athlete cards will be dynamically inserted here -->
+            </div>
+
+            <!-- Table View -->
+            <div id="tableView" class="table-view" style="display: none;">
+                <div class="table-container">
+                    <table id="athletesTable">
+                        <thead>
+                            <tr>
+                                <th data-sort="name">Name <i class="fas fa-sort"></i></th>
+                                <th data-sort="state">State <i class="fas fa-sort"></i></th>
+<th data-sort="totalSeasons">Seasons <i class="fas fa-sort"></i></th>
+                                <th data-sort="overallWinRate">Overall Win Rate <i class="fas fa-sort"></i></th>
+                                <th data-sort="totalWins">Total Wins <i class="fas fa-sort"></i></th>
+                                <th data-sort="bestPlacement">Best Placement <i class="fas fa-sort"></i></th>
+                                <th data-sort="winRateImprovement">Win Rate Trend <i class="fas fa-sort"></i></th>
+                                <th data-sort="placementImprovement">Placement Trend <i class="fas fa-sort"></i></th>
+                                <th data-sort="improvementTrend">Overall Trend <i class="fas fa-sort"></i></th>
+                                <th data-sort="totalPoints">Total Points <i class="fas fa-sort"></i></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="athletesTableBody">
+                            <!-- Table rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="pagination">
+                <button id="prevPageBtn" class="btn btn-secondary">
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <div class="page-info">
+                    <span id="pageInfo">Page 1 of 1</span>
+                </div>
+                <button id="nextPageBtn" class="btn btn-secondary">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Athlete Detail Modal -->
+    <div id="athleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalAthleteTitle">Athlete Details</h2>
+                <button id="closeModal" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalAthleteDetails">
+                <!-- Athlete details will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>

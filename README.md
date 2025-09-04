@@ -23,13 +23,50 @@ A Node.js Express server that scrapes tournament data from Track Wrestling, conv
    npm install
    ```
 
-3. **Install system dependencies** (for Puppeteer):
-   ```bash
-   # On Ubuntu/Debian
-   sudo apt-get install -y wget gnupg ca-certificates
+3. **Setup PostgreSQL Database**:
    
+   **Install PostgreSQL** (if not already installed):
+   ```bash
    # On macOS (using Homebrew)
-   brew install chromium
+   brew install postgresql
+   brew services start postgresql
+   
+   # On Ubuntu/Debian
+   sudo apt-get install postgresql postgresql-contrib
+   sudo systemctl start postgresql
+   ```
+   
+   **Create database**:
+   ```bash
+   # Connect to PostgreSQL
+   psql postgres
+   
+   # Create database and user
+   CREATE DATABASE recruitr_development;
+   CREATE USER recruitr_user WITH PASSWORD 'your_password';
+   GRANT ALL PRIVILEGES ON DATABASE recruitr_development TO recruitr_user;
+   \q
+   ```
+
+4. **Environment Configuration**:
+   
+   Create a `.env` file in the project root:
+   ```bash
+   # Database Configuration
+   DB_NAME=recruitr_development
+   DB_USER=recruitr_user
+   DB_PASSWORD=your_password
+   DB_HOST=localhost
+   DB_PORT=5432
+   
+   # Application Configuration
+   NODE_ENV=development
+   PORT=3000
+   ```
+
+5. **Initialize Database Tables**:
+   ```bash
+   npm run setup-db
    ```
 
 ## Usage
@@ -93,23 +130,55 @@ Fetches all teams participating in a tournament.
 curl http://localhost:3000/tournament/12345/teams
 ```
 
-#### 5. Scrape Tournament (POST)
+#### 5. Scrape Tournament and Save to Database (POST)
 ```http
 POST /tournament/scrape
 Content-Type: application/json
 
 {
   "tournamentId": "12345",
-  "year": "2024"
+  "year": "2024",
+  "state": "UT"
 }
 ```
-Alternative endpoint for scraping with request body parameters.
+Scrapes tournament data and saves it to the PostgreSQL database. Creates athletes and seasons automatically.
+
+**Parameters:**
+- `tournamentId` (required): The Track Wrestling tournament ID
+- `year` (optional): Tournament year (defaults to current year)
+- `state` (optional): Two-letter state code to help with athlete matching
 
 **Example:**
 ```bash
 curl -X POST http://localhost:3000/tournament/scrape \
   -H "Content-Type: application/json" \
-  -d '{"tournamentId": "12345", "year": "2024"}'
+  -d '{"tournamentId": "854866132", "year": "2025", "state": "UT"}'
+```
+
+#### 6. Search Athletes
+```http
+GET /athletes/search?q=name&limit=50
+```
+Search for athletes by first or last name.
+
+**Parameters:**
+- `q` (required): Search query (name)
+- `limit` (optional): Maximum results (default: 50)
+
+**Example:**
+```bash
+curl "http://localhost:3000/athletes/search?q=Smith&limit=10"
+```
+
+#### 7. Get Athlete Details
+```http
+GET /athletes/:id
+```
+Get athlete details with all their seasons.
+
+**Example:**
+```bash
+curl http://localhost:3000/athletes/123
 ```
 
 ### Response Format

@@ -1,7 +1,11 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
+require('dotenv').config();
 const AuthFetcherHTTP = require('./auth-fetcher-http');
 const TournamentParticipantsScraper = require('./tournament-scraper');
+const { syncDatabase } = require('./models');
+const athleteService = require('./services/athleteService');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -10,6 +14,9 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static files
+app.use(express.static('public'));
 
 // Basic logging middleware
 app.use((req, res, next) => {
@@ -20,6 +27,11 @@ app.use((req, res, next) => {
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
+});
+
+// Serve the main UI
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Get authentication session for a tournament
@@ -52,7 +64,7 @@ app.get('/auth/:tournamentId', async (req, res) => {
   }
 });
 
-// Scrape tournament participants data
+// Scrape tournament participants data (without saving to database)
 app.get('/tournament/:tournamentId/participants', async (req, res) => {
   try {
     const { tournamentId } = req.params;
@@ -88,10 +100,10 @@ app.get('/tournament/:tournamentId/participants', async (req, res) => {
   }
 });
 
-// Scrape tournament participants with POST (for additional parameters)
+// Scrape tournament participants and save to database
 app.post('/tournament/scrape', async (req, res) => {
   try {
-    const { tournamentId, year } = req.body;
+    const { tournamentId, year, state } = req.body;
     
     if (!tournamentId) {
       return res.status(400).json({ 
@@ -101,22 +113,87 @@ app.post('/tournament/scrape', async (req, res) => {
 
     const tournamentYear = year || new Date().getFullYear().toString();
     
-    console.log(`Scraping tournament ${tournamentId} for year ${tournamentYear}`);
+    console.log(`🏁 Scraping tournament ${tournamentId} for year ${tournamentYear}${state ? ` (state: ${state})` : ''}`);
     const scraper = new TournamentParticipantsScraper(tournamentId, tournamentYear);
     const participants = await scraper.call();
     
+    console.log(`📊 Scraped ${participants.length} participants, now saving to database...`);
+    
+    // Process and save results to database
+    const databaseResults = await athleteService.processTournamentResults(participants, state);
+    
     res.json({
       success: true,
-      data: participants,
-      count: participants.length,
-      tournamentId: tournamentId,
-      year: tournamentYear,
+      data: databaseResults.results,
+      stats: databaseResults.stats,
+      scraped: {
+        count: participants.length,
+        tournamentId: tournamentId,
+        year: tournamentYear,
+        state: state || null,
+      },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Scraping error:', error);
+    console.error('❌ Scraping/Database error:', error);
     res.status(500).json({
-      error: 'Failed to scrape tournament data',
+      error: 'Failed to scrape tournament data or save to database',
+      message: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Search athletes by name
+app.get('/athletes/search', async (req, res) => {
+  try {
+    const { q: query, limit } = req.query;
+    
+    // Allow empty query to return all athletes
+    const searchQuery = query || '';
+    
+    const athletes = await athleteService.searchAthletes(searchQuery, parseInt(limit) || 50);
+    
+    res.json({
+      success: true,
+      data: athletes,
+      count: athletes.length,
+      query: query,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Athlete search error:', error);
+    res.status(500).json({
+      error: 'Failed to search athletes',
+      message: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Get athlete by ID with all seasons
+app.get('/athletes/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const athlete = await athleteService.getAthleteWithSeasons(parseInt(id));
+    
+    if (!athlete) {
+      return res.status(404).json({
+        error: 'Athlete not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: athlete,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Athlete fetch error:', error);
+    res.status(500).json({
+      error: 'Failed to fetch athlete',
       message: error.message,
       timestamp: new Date().toISOString()
     });
@@ -165,7 +242,9 @@ app.use('*', (req, res) => {
       'GET /auth/:tournamentId',
       'GET /tournament/:tournamentId/participants?year=YYYY',
       'GET /tournament/:tournamentId/teams',
-      'POST /tournament/scrape'
+      'POST /tournament/scrape',
+      'GET /athletes/search?q=name',
+      'GET /athletes/:id'
     ],
     timestamp: new Date().toISOString()
   });
@@ -181,18 +260,36 @@ app.use((error, req, res, next) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Recruitr server running on port ${PORT}`);
-  console.log(`📋 Available endpoints:`);
-  console.log(`   GET  /health`);
-  console.log(`   GET  /auth/:tournamentId`);
-  console.log(`   GET  /tournament/:tournamentId/participants?year=YYYY`);
-  console.log(`   GET  /tournament/:tournamentId/teams`);
-  console.log(`   POST /tournament/scrape`);
-  console.log(`\n🔗 Example usage:`);
-  console.log(`   curl http://localhost:${PORT}/health`);
-  console.log(`   curl http://localhost:${PORT}/tournament/12345/participants?year=2024`);
-});
+// Initialize database and start server
+async function startServer() {
+  try {
+    // Initialize database
+    console.log('🔄 Initializing database...');
+    await syncDatabase(false); // Set to true to recreate tables (WARNING: clears data)
+    
+    // Start server
+    app.listen(PORT, () => {
+      console.log(`🚀 Recruitr server running on port ${PORT}`);
+      console.log(`🌐 Web UI available at: http://localhost:${PORT}`);
+      console.log(`📋 API endpoints:`);
+      console.log(`   GET  /health`);
+      console.log(`   GET  /auth/:tournamentId`);
+      console.log(`   GET  /tournament/:tournamentId/participants?year=YYYY`);
+      console.log(`   GET  /tournament/:tournamentId/teams`);
+      console.log(`   POST /tournament/scrape`);
+      console.log(`   GET  /athletes/search?q=name`);
+      console.log(`   GET  /athletes/:id`);
+      console.log(`\n🔗 Quick start:`);
+      console.log(`   1. Open http://localhost:${PORT} in your browser`);
+      console.log(`   2. Or curl http://localhost:${PORT}/health`);
+      console.log(`   3. Or curl "http://localhost:${PORT}/athletes/search?q=Smith"`);
+    });
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
 
 module.exports = app;
