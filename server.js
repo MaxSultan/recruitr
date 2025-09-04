@@ -234,6 +234,50 @@ app.patch('/athletes/:id/favorite', async (req, res) => {
   }
 });
 
+// Merge two athletes
+app.post('/athletes/merge', async (req, res) => {
+  try {
+    const { keepAthleteId, mergeAthleteId } = req.body;
+    
+    if (!keepAthleteId || !mergeAthleteId) {
+      return res.status(400).json({
+        error: 'Both keepAthleteId and mergeAthleteId are required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    if (keepAthleteId === mergeAthleteId) {
+      return res.status(400).json({
+        error: 'Cannot merge athlete with themselves',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    const result = await athleteService.mergeAthletes(parseInt(keepAthleteId), parseInt(mergeAthleteId));
+    
+    if (!result) {
+      return res.status(404).json({
+        error: 'One or both athletes not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: result,
+      message: `Successfully merged athletes. ${result.mergedSeasons} seasons moved.`,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Merge athletes error:', error);
+    res.status(500).json({
+      error: 'Failed to merge athletes',
+      message: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // Get teams for a tournament
 app.get('/tournament/:tournamentId/teams', async (req, res) => {
   try {
@@ -314,6 +358,7 @@ async function startServer() {
       console.log(`   GET  /athletes/search?q=name`);
       console.log(`   GET  /athletes/:id`);
       console.log(`   PATCH /athletes/:id/favorite`);
+      console.log(`   POST /athletes/merge`);
       console.log(`\n🔗 Quick start:`);
       console.log(`   1. Open http://localhost:${PORT} in your browser`);
       console.log(`   2. Or curl http://localhost:${PORT}/health`);

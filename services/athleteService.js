@@ -284,6 +284,83 @@ class AthleteService {
       throw error;
     }
   }
+
+  /**
+   * Merge two athletes - move all seasons from mergeAthlete to keepAthlete, then delete mergeAthlete
+   */
+  async mergeAthletes(keepAthleteId, mergeAthleteId) {
+    const transaction = await Athlete.sequelize.transaction();
+    
+    try {
+      // Get both athletes with their seasons
+      const [keepAthlete, mergeAthlete] = await Promise.all([
+        Athlete.findByPk(keepAthleteId, {
+          include: [{
+            model: Season,
+            as: 'seasons'
+          }]
+        }),
+        Athlete.findByPk(mergeAthleteId, {
+          include: [{
+            model: Season,
+            as: 'seasons'
+          }]
+        })
+      ]);
+
+      if (!keepAthlete || !mergeAthlete) {
+        await transaction.rollback();
+        return null;
+      }
+
+      console.log(`🔄 Merging ${mergeAthlete.firstName} ${mergeAthlete.lastName} (${mergeAthlete.seasons.length} seasons) into ${keepAthlete.firstName} ${keepAthlete.lastName} (${keepAthlete.seasons.length} seasons)`);
+
+      // Move all seasons from mergeAthlete to keepAthlete
+      const seasonsToMove = await Season.findAll({
+        where: { athleteId: mergeAthleteId },
+        transaction
+      });
+
+      await Season.update(
+        { athleteId: keepAthleteId },
+        { 
+          where: { athleteId: mergeAthleteId },
+          transaction 
+        }
+      );
+
+      // If mergeAthlete is favorited but keepAthlete isn't, preserve the favorite status
+      if (mergeAthlete.isFavorite && !keepAthlete.isFavorite) {
+        keepAthlete.isFavorite = true;
+        await keepAthlete.save({ transaction });
+      }
+
+      // Delete the merged athlete
+      await mergeAthlete.destroy({ transaction });
+
+      await transaction.commit();
+
+      console.log(`✅ Successfully merged athletes. Moved ${seasonsToMove.length} seasons from ${mergeAthlete.firstName} ${mergeAthlete.lastName} to ${keepAthlete.firstName} ${keepAthlete.lastName}`);
+
+      // Return the updated athlete with all seasons
+      const updatedAthlete = await this.getAthleteWithSeasons(keepAthleteId);
+
+      return {
+        athlete: updatedAthlete,
+        mergedSeasons: seasonsToMove.length,
+        deletedAthlete: {
+          id: mergeAthlete.id,
+          firstName: mergeAthlete.firstName,
+          lastName: mergeAthlete.lastName
+        }
+      };
+    } catch (error) {
+      await transaction.rollback();
+      console.error(`❌ Error merging athletes ${keepAthleteId} and ${mergeAthleteId}:`, error);
+      throw error;
+    }
+  }
+
 }
 
 module.exports = new AthleteService();

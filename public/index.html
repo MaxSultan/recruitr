@@ -83,6 +83,9 @@
                 
                 <div class="filter-actions">
                     <button id="clearFiltersBtn" class="btn btn-secondary">Clear Filters</button>
+                    <button id="mergeAthletesBtn" class="btn btn-warning">
+                        <i class="fas fa-compress-arrows-alt"></i> Merge Athletes
+                    </button>
                 </div>
             </div>
 
@@ -317,6 +320,61 @@
             </div>
             <div class="modal-body" id="modalAthleteDetails">
                 <!-- Athlete details will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Merge Athletes Modal -->
+    <div id="mergeModal" class="modal">
+        <div class="modal-content" style="max-width: 800px;">
+            <div class="modal-header">
+                <h2>Merge Athletes</h2>
+                <button id="closeMergeModal" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="merge-instructions" style="margin-bottom: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                    <h4 style="margin-top: 0;"><i class="fas fa-info-circle"></i> How to Merge Athletes</h4>
+                    <p style="margin-bottom: 0;">Select two athletes below. The first athlete will be kept and all seasons from the second athlete will be moved to the first athlete. The second athlete will be deleted.</p>
+                </div>
+                
+                <div class="athlete-selection" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                    <div class="athlete-selector">
+                        <h4>Keep This Athlete</h4>
+                        <div class="search-container" style="margin-bottom: 1rem;">
+                            <input type="text" id="keepAthleteSearch" placeholder="Search athletes to keep..." style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div id="keepAthleteList" class="athlete-list" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; border-radius: 4px;">
+                            <!-- Athletes will be populated here -->
+                        </div>
+                        <div id="selectedKeepAthlete" class="selected-athlete" style="margin-top: 1rem; padding: 1rem; background: #f0f9ff; border-radius: 6px; border-left: 4px solid #3b82f6; display: none;">
+                            <!-- Selected athlete info -->
+                        </div>
+                    </div>
+                    
+                    <div class="athlete-selector">
+                        <h4>Merge This Athlete Into the First</h4>
+                        <div class="search-container" style="margin-bottom: 1rem;">
+                            <input type="text" id="mergeAthleteSearch" placeholder="Search athletes to merge..." style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div id="mergeAthleteList" class="athlete-list" style="max-height: 300px; overflow-y: auto; border: 1px solid #ddd; border-radius: 4px;">
+                            <!-- Athletes will be populated here -->
+                        </div>
+                        <div id="selectedMergeAthlete" class="selected-athlete" style="margin-top: 1rem; padding: 1rem; background: #fef3c7; border-radius: 6px; border-left: 4px solid #f59e0b; display: none;">
+                            <!-- Selected athlete info -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="merge-actions" style="margin-top: 2rem; text-align: center;">
+                    <button id="executeMergeBtn" class="btn btn-danger" disabled style="margin-right: 1rem;">
+                        <i class="fas fa-compress-arrows-alt"></i> Merge Athletes
+                    </button>
+                    <button id="cancelMergeBtn" class="btn btn-secondary">
+                        Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>

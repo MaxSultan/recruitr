@@ -78,6 +78,19 @@ class AthleteApp {
             if (e.target.id === 'athleteModal') this.closeModal();
         });
 
+        // Merge modal
+        document.getElementById('mergeAthletesBtn').addEventListener('click', () => this.openMergeModal());
+        document.getElementById('closeMergeModal').addEventListener('click', () => this.closeMergeModal());
+        document.getElementById('cancelMergeBtn').addEventListener('click', () => this.closeMergeModal());
+        document.getElementById('mergeModal').addEventListener('click', (e) => {
+            if (e.target.id === 'mergeModal') this.closeMergeModal();
+        });
+        
+        // Merge athlete search and selection
+        document.getElementById('keepAthleteSearch').addEventListener('input', (e) => this.searchAthletes(e.target.value, 'keep'));
+        document.getElementById('mergeAthleteSearch').addEventListener('input', (e) => this.searchAthletes(e.target.value, 'merge'));
+        document.getElementById('executeMergeBtn').addEventListener('click', () => this.executeMerge());
+
         // Table sorting
         document.querySelectorAll('th[data-sort]').forEach(th => {
             th.addEventListener('click', () => {
@@ -602,6 +615,10 @@ class AthleteApp {
                                     <div class="season-stat-label">Placement</div>
                                     <div class="season-stat-value ${this.getPlacementClass(season.statePlacement)}">${season.statePlacement}</div>
                                 </div>
+                                <div class="season-stat">
+                                    <div class="season-stat-label">Grade</div>
+                                    <div class="season-stat-value">${season.grade || 'N/A'}</div>
+                                </div>
                             </div>
                         </div>
                     `).join('')}
@@ -616,6 +633,171 @@ class AthleteApp {
     closeModal() {
         document.getElementById('athleteModal').style.display = 'none';
         document.body.style.overflow = 'auto';
+    }
+
+    // Manual merge interface
+    openMergeModal() {
+        this.selectedKeepAthlete = null;
+        this.selectedMergeAthlete = null;
+        
+        const modal = document.getElementById('mergeModal');
+        modal.style.display = 'block';
+        
+        // Populate both athlete lists initially
+        this.populateAthleteList('keep', this.athletes);
+        this.populateAthleteList('merge', this.athletes);
+        
+        // Clear search inputs
+        document.getElementById('keepAthleteSearch').value = '';
+        document.getElementById('mergeAthleteSearch').value = '';
+        
+        // Hide selected athlete displays
+        document.getElementById('selectedKeepAthlete').style.display = 'none';
+        document.getElementById('selectedMergeAthlete').style.display = 'none';
+        
+        // Disable merge button
+        document.getElementById('executeMergeBtn').disabled = true;
+    }
+
+    closeMergeModal() {
+        document.getElementById('mergeModal').style.display = 'none';
+        this.selectedKeepAthlete = null;
+        this.selectedMergeAthlete = null;
+    }
+
+    searchAthletes(query, type) {
+        const filteredAthletes = query ? 
+            this.athletes.filter(athlete => 
+                `${athlete.firstName} ${athlete.lastName}`.toLowerCase().includes(query.toLowerCase())
+            ) : this.athletes;
+            
+        this.populateAthleteList(type, filteredAthletes);
+    }
+
+    populateAthleteList(type, athletes) {
+        const listId = type === 'keep' ? 'keepAthleteList' : 'mergeAthleteList';
+        const list = document.getElementById(listId);
+        
+        if (athletes.length === 0) {
+            list.innerHTML = '<div style="padding: 1rem; text-align: center; color: #666;">No athletes found</div>';
+            return;
+        }
+        
+        list.innerHTML = athletes.map(athlete => `
+            <div class="athlete-item" 
+                 style="padding: 0.75rem; border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s;"
+                 onmouseover="this.style.background='#f8f9fa'"
+                 onmouseout="this.style.background='white'"
+                 onclick="app.selectAthlete(${athlete.id}, '${type}')">
+                <div style="font-weight: 500;">${athlete.firstName} ${athlete.lastName}</div>
+                <div style="font-size: 0.85rem; color: #666;">
+                    ${athlete.state || 'N/A'} • ${athlete.seasons.length} season${athlete.seasons.length !== 1 ? 's' : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    selectAthlete(athleteId, type) {
+        const athlete = this.athletes.find(a => a.id === athleteId);
+        if (!athlete) return;
+
+        if (type === 'keep') {
+            this.selectedKeepAthlete = athlete;
+            this.displaySelectedAthlete(athlete, 'selectedKeepAthlete');
+        } else {
+            this.selectedMergeAthlete = athlete;
+            this.displaySelectedAthlete(athlete, 'selectedMergeAthlete');
+        }
+        
+        // Enable merge button if both athletes are selected and different
+        const mergeBtn = document.getElementById('executeMergeBtn');
+        mergeBtn.disabled = !(this.selectedKeepAthlete && 
+                             this.selectedMergeAthlete && 
+                             this.selectedKeepAthlete.id !== this.selectedMergeAthlete.id);
+    }
+
+    displaySelectedAthlete(athlete, containerId) {
+        const container = document.getElementById(containerId);
+        const stats = this.calculateAthleteStats(athlete);
+        
+        container.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <div style="font-weight: 600; font-size: 1.1rem;">${athlete.firstName} ${athlete.lastName}</div>
+                    <div style="color: #666; font-size: 0.9rem; margin-top: 0.25rem;">
+                        ${athlete.state || 'N/A'} • ${athlete.seasons.length} seasons • ${stats.totalWins}-${stats.totalLosses} record
+                    </div>
+                </div>
+                <button onclick="app.${containerId === 'selectedKeepAthlete' ? 'clearKeepSelection' : 'clearMergeSelection'}()" 
+                        style="background: none; border: none; color: #666; cursor: pointer; font-size: 1.2rem;">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        container.style.display = 'block';
+    }
+
+    clearKeepSelection() {
+        this.selectedKeepAthlete = null;
+        document.getElementById('selectedKeepAthlete').style.display = 'none';
+        document.getElementById('executeMergeBtn').disabled = true;
+    }
+
+    clearMergeSelection() {
+        this.selectedMergeAthlete = null;
+        document.getElementById('selectedMergeAthlete').style.display = 'none';
+        document.getElementById('executeMergeBtn').disabled = true;
+    }
+
+    async executeMerge() {
+        if (!this.selectedKeepAthlete || !this.selectedMergeAthlete) {
+            alert('Please select both athletes to merge.');
+            return;
+        }
+
+        if (this.selectedKeepAthlete.id === this.selectedMergeAthlete.id) {
+            alert('Cannot merge an athlete with themselves. Please select two different athletes.');
+            return;
+        }
+
+        const keepName = `${this.selectedKeepAthlete.firstName} ${this.selectedKeepAthlete.lastName}`;
+        const mergeName = `${this.selectedMergeAthlete.firstName} ${this.selectedMergeAthlete.lastName}`;
+
+        if (!confirm(`Are you sure you want to merge "${mergeName}" into "${keepName}"?\n\nThis will:\n• Move all ${this.selectedMergeAthlete.seasons.length} seasons from ${mergeName} to ${keepName}\n• Delete the ${mergeName} athlete record\n\nThis action cannot be undone.`)) {
+            return;
+        }
+
+        try {
+            const response = await fetch('/athletes/merge', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    keepAthleteId: this.selectedKeepAthlete.id,
+                    mergeAthleteId: this.selectedMergeAthlete.id
+                })
+            });
+
+            if (!response.ok) throw new Error('Failed to merge athletes');
+            
+            const result = await response.json();
+            
+            alert(`✅ Successfully merged athletes!\n\nMoved ${result.data.mergedSeasons} seasons from "${result.data.deletedAthlete.firstName} ${result.data.deletedAthlete.lastName}" to "${result.data.athlete.firstName} ${result.data.athlete.lastName}".`);
+            
+            // Close the modal
+            this.closeMergeModal();
+            
+            // Refresh the main athlete list
+            await this.loadAthletes();
+            this.populateFilters();
+            this.renderAthletes();
+            this.updateStats();
+            
+        } catch (error) {
+            console.error('Error merging athletes:', error);
+            alert('❌ Failed to merge athletes. Please try again.');
+        }
     }
 
     changePage(direction) {
