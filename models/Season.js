@@ -72,6 +72,11 @@ const Season = sequelize.define('Season', {
     allowNull: true,
     comment: 'Division (e.g., "4A", "5A", "D1")',
   },
+  tournamentId: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    comment: 'Track Wrestling tournament ID where this performance occurred'
+  },
 }, {
   tableName: 'seasons',
   timestamps: true,
@@ -93,10 +98,10 @@ const Season = sequelize.define('Season', {
       fields: ['weightClass'],
     },
     {
-      // Composite index to prevent duplicate seasons for same athlete/year/weight
+      // Composite index to prevent duplicate seasons for same athlete/year/weight/tournament
       unique: true,
-      fields: ['athleteId', 'year', 'weightClass', 'team'],
-      name: 'unique_athlete_season',
+      fields: ['athleteId', 'year', 'weightClass', 'team', 'tournamentId'],
+      name: 'unique_athlete_season_tournament',
     },
   ],
 });

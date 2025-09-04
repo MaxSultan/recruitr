@@ -119,8 +119,8 @@ app.post('/tournament/scrape', async (req, res) => {
     
     console.log(`📊 Scraped ${participants.length} participants, now saving to database...`);
     
-    // Process and save results to database
-    const databaseResults = await athleteService.processTournamentResults(participants, state);
+                // Process and save results to database
+            const databaseResults = await athleteService.processTournamentResults(participants, state, tournamentId);
     
     res.json({
       success: true,

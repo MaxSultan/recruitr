@@ -75,6 +75,7 @@ class AthleteService {
           year,
           weightClass: weightClass || null,
           team,
+          tournamentId: seasonData.tournamentId || null,
         },
       });
 
@@ -105,6 +106,7 @@ class AthleteService {
         year,
         weightClass,
         division,
+        tournamentId: seasonData.tournamentId || null,
       });
 
       console.log(`✅ Created new season for athlete ID ${athleteId}: ${year} ${weightClass || 'N/A'} (${wins}-${losses})`);
@@ -118,7 +120,7 @@ class AthleteService {
   /**
    * Process tournament results and save to database
    */
-  async processTournamentResults(results, state = null) {
+  async processTournamentResults(results, state = null, tournamentId = null) {
     const processedResults = [];
     let createdAthletes = 0;
     let createdSeasons = 0;
@@ -143,8 +145,8 @@ class AthleteService {
           createdAthletes++;
         }
 
-        // Create season
-        const season = await this.createSeason(athlete.id, seasonData);
+        // Create season (include tournament ID)
+        const season = await this.createSeason(athlete.id, { ...seasonData, tournamentId });
         
         if (season.createdAt === season.updatedAt) {
           createdSeasons++;
