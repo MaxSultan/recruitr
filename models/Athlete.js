@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../config/sequelize');
 
 const Athlete = sequelize.define('Athlete', {
   id: {
@@ -25,6 +25,12 @@ const Athlete = sequelize.define('Athlete', {
     type: DataTypes.STRING(2),
     allowNull: true,
     comment: 'Two-letter state code (e.g., UT, CA, TX)',
+  },
+  isFavorite: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+    comment: 'Whether this athlete is marked as a favorite',
   },
 }, {
   tableName: 'athletes',

@@ -261,6 +261,29 @@ class AthleteService {
       throw error;
     }
   }
+
+  /**
+   * Toggle favorite status for an athlete
+   */
+  async toggleFavorite(athleteId) {
+    try {
+      const athlete = await Athlete.findByPk(athleteId);
+      
+      if (!athlete) {
+        return null;
+      }
+
+      // Toggle the favorite status
+      athlete.isFavorite = !athlete.isFavorite;
+      await athlete.save();
+
+      console.log(`✅ Toggled favorite for ${athlete.firstName} ${athlete.lastName} to ${athlete.isFavorite}`);
+      return athlete;
+    } catch (error) {
+      console.error(`❌ Error toggling favorite for athlete ${athleteId}:`, error);
+      throw error;
+    }
+  }
 }
 
 module.exports = new AthleteService();

@@ -1,4 +1,4 @@
-const sequelize = require('../config/database');
+const sequelize = require('../config/sequelize');
 const Athlete = require('./Athlete');
 const Season = require('./Season');
 

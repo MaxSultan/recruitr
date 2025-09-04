@@ -482,6 +482,7 @@ body {
     padding: 1.5rem;
     transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
 }
 
 .athlete-card:hover {
@@ -695,6 +696,74 @@ tr:hover {
     border: 1px solid #e2e8f0;
     border-radius: 4px;
     font-size: 0.9rem;
+}
+
+/* Tournament Scraper Toggle */
+.scraper-toggle-container {
+    text-align: center;
+    margin: 2rem 0 1rem 0;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+#toggleScraperBtn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+#toggleScraperBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#toggleScraperBtn.active {
+    background: #e53e3e;
+    color: white;
+    border-color: #e53e3e;
+}
+
+#toggleScraperBtn.active i {
+    transform: rotate(45deg);
+}
+
+/* Favorites */
+.favorite-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    color: #a0aec0;
+}
+
+.favorite-btn:hover {
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.favorite-btn.favorited {
+    color: #ffd700;
+}
+
+.favorite-btn.favorited:hover {
+    color: #e6c200;
+}
+
+.card .favorite-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 2;
+}
+
+.athlete-row .favorite-btn {
+    margin-left: 0.5rem;
 }
 
 /* Modal */

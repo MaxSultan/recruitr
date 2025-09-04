@@ -14,7 +14,9 @@ class AthleteApp {
             team: '',
             year: '',
             weightClass: '',
-            division: ''
+            division: '',
+            grade: '',
+            favorites: ''
         };
         
         this.init();
@@ -53,6 +55,8 @@ class AthleteApp {
         document.getElementById('yearFilter').addEventListener('change', (e) => this.handleFilter('year', e.target.value));
         document.getElementById('weightClassFilter').addEventListener('change', (e) => this.handleFilter('weightClass', e.target.value));
         document.getElementById('divisionFilter').addEventListener('change', (e) => this.handleFilter('division', e.target.value));
+        document.getElementById('gradeFilter').addEventListener('change', (e) => this.handleFilter('grade', e.target.value));
+        document.getElementById('favoritesFilter').addEventListener('change', (e) => this.handleFilter('favorites', e.target.value));
         document.getElementById('clearFiltersBtn').addEventListener('click', () => this.clearFilters());
 
         // Sorting
@@ -87,6 +91,7 @@ class AthleteApp {
         document.getElementById('retryBtn').addEventListener('click', () => this.init());
 
         // Tournament scraper
+        document.getElementById('toggleScraperBtn').addEventListener('click', () => this.toggleScraperSection());
         document.getElementById('scrapeTournamentBtn').addEventListener('click', () => this.scrapeTournament());
         document.getElementById('viewNewDataBtn').addEventListener('click', () => this.viewNewData());
         document.getElementById('scrapeAnotherBtn').addEventListener('click', () => this.resetScraper());
@@ -124,12 +129,14 @@ class AthleteApp {
         const years = [...new Set(this.athletes.flatMap(a => a.seasons.map(s => s.year)))].sort((a, b) => b - a);
         const weightClasses = [...new Set(this.athletes.flatMap(a => a.seasons.map(s => s.weightClass).filter(Boolean)))].sort((a, b) => parseInt(a) - parseInt(b));
         const divisions = [...new Set(this.athletes.flatMap(a => a.seasons.map(s => s.division).filter(Boolean)))].sort();
+        const grades = [...new Set(this.athletes.flatMap(a => a.seasons.map(s => s.grade).filter(Boolean)))].sort();
 
         this.populateSelect('stateFilter', states);
         this.populateSelect('teamFilter', teams);
         this.populateSelect('yearFilter', years);
         this.populateSelect('weightClassFilter', weightClasses);
         this.populateSelect('divisionFilter', divisions);
+        this.populateSelect('gradeFilter', grades);
     }
 
     populateSelect(selectId, options) {
@@ -169,7 +176,9 @@ class AthleteApp {
             team: '',
             year: '',
             weightClass: '',
-            division: ''
+            division: '',
+            grade: '',
+            favorites: ''
         };
         
         // Reset form elements
@@ -179,6 +188,8 @@ class AthleteApp {
         document.getElementById('yearFilter').value = '';
         document.getElementById('weightClassFilter').value = '';
         document.getElementById('divisionFilter').value = '';
+        document.getElementById('gradeFilter').value = '';
+        document.getElementById('favoritesFilter').value = '';
         
         this.applyFilters();
     }
@@ -198,14 +209,21 @@ class AthleteApp {
             if (this.filters.state && athlete.state !== this.filters.state) return false;
 
             // Season-based filters
-            if (this.filters.team || this.filters.year || this.filters.weightClass || this.filters.division) {
+            if (this.filters.team || this.filters.year || this.filters.weightClass || this.filters.division || this.filters.grade) {
                 const hasMatchingSeason = athlete.seasons.some(season => {
                     return (!this.filters.team || season.team === this.filters.team) &&
                            (!this.filters.year || season.year === this.filters.year) &&
                            (!this.filters.weightClass || season.weightClass === this.filters.weightClass) &&
-                           (!this.filters.division || season.division === this.filters.division);
+                           (!this.filters.division || season.division === this.filters.division) &&
+                           (!this.filters.grade || season.grade === this.filters.grade);
                 });
                 if (!hasMatchingSeason) return false;
+            }
+            
+            // Favorites filter
+            if (this.filters.favorites) {
+                if (this.filters.favorites === 'favorites' && !athlete.isFavorite) return false;
+                if (this.filters.favorites === 'non-favorites' && athlete.isFavorite) return false;
             }
 
             return true;
@@ -445,6 +463,16 @@ class AthleteApp {
             </div>
         `;
 
+        // Add favorite button after innerHTML is set
+        const favoriteBtn = document.createElement('button');
+        favoriteBtn.className = `favorite-btn ${athlete.isFavorite ? 'favorited' : ''}`;
+        favoriteBtn.innerHTML = '<i class="fas fa-star"></i>';
+        favoriteBtn.onclick = (e) => {
+            e.stopPropagation();
+            this.toggleFavorite(athlete.id);
+        };
+        card.appendChild(favoriteBtn);
+
         return card;
     }
 
@@ -475,7 +503,13 @@ class AthleteApp {
         };
         
         row.innerHTML = `
-            <td><strong>${athlete.firstName} ${athlete.lastName}</strong></td>
+            <td>
+                <strong>${athlete.firstName} ${athlete.lastName}</strong>
+                <button class="favorite-btn ${athlete.isFavorite ? 'favorited' : ''}" 
+                        onclick="event.stopPropagation(); app.toggleFavorite(${athlete.id})">
+                    <i class="fas fa-star"></i>
+                </button>
+            </td>
             <td>${athlete.state || 'N/A'}</td>
             <td><span class="badge badge-info">${stats.totalSeasons}</span></td>
             <td><span class="badge badge-success">${stats.overallWinRate}%</span></td>
@@ -904,6 +938,60 @@ class AthleteApp {
         document.getElementById('cardView').style.display = 'none';
         document.getElementById('tableView').style.display = 'none';
         document.getElementById('pagination').style.display = 'none';
+    }
+
+    // Favorites functionality
+    async toggleFavorite(athleteId) {
+        try {
+            const response = await fetch(`/athletes/${athleteId}/favorite`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to toggle favorite');
+            }
+
+            const result = await response.json();
+            
+            // Update the athlete in our local data
+            const athlete = this.athletes.find(a => a.id === athleteId);
+            if (athlete) {
+                athlete.isFavorite = result.data.isFavorite;
+            }
+            
+            // Re-render to update favorite buttons
+            this.renderAthletes();
+            
+            // If currently filtering by favorites, update the filtered list
+            if (this.filters.favorites) {
+                this.applyFilters();
+            }
+            
+            console.log(`✅ Toggled favorite for ${result.data.firstName} ${result.data.lastName}: ${result.data.isFavorite}`);
+        } catch (error) {
+            console.error('❌ Error toggling favorite:', error);
+            // You could add a toast notification here
+        }
+    }
+    
+    // Tournament scraper toggle
+    toggleScraperSection() {
+        const section = document.getElementById('scraperSection');
+        const button = document.getElementById('toggleScraperBtn');
+        const isVisible = section.style.display !== 'none';
+        
+        if (isVisible) {
+            section.style.display = 'none';
+            button.innerHTML = '<i class="fas fa-plus"></i> Add Tournament Data';
+            button.classList.remove('active');
+        } else {
+            section.style.display = 'block';
+            button.innerHTML = '<i class="fas fa-times"></i> Hide Tournament Data';
+            button.classList.add('active');
+        }
     }
 
     // Tournament scraping functionality

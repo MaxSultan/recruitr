@@ -200,6 +200,40 @@ app.get('/athletes/:id', async (req, res) => {
   }
 });
 
+// Toggle athlete favorite status
+app.patch('/athletes/:id/favorite', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const athlete = await athleteService.toggleFavorite(parseInt(id));
+    
+    if (!athlete) {
+      return res.status(404).json({
+        error: 'Athlete not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: {
+        id: athlete.id,
+        firstName: athlete.firstName,
+        lastName: athlete.lastName,
+        isFavorite: athlete.isFavorite
+      },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Toggle favorite error:', error);
+    res.status(500).json({
+      error: 'Failed to toggle favorite status',
+      message: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // Get teams for a tournament
 app.get('/tournament/:tournamentId/teams', async (req, res) => {
   try {
@@ -279,6 +313,7 @@ async function startServer() {
       console.log(`   POST /tournament/scrape`);
       console.log(`   GET  /athletes/search?q=name`);
       console.log(`   GET  /athletes/:id`);
+      console.log(`   PATCH /athletes/:id/favorite`);
       console.log(`\n🔗 Quick start:`);
       console.log(`   1. Open http://localhost:${PORT} in your browser`);
       console.log(`   2. Or curl http://localhost:${PORT}/health`);

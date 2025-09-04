@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../config/sequelize');
 
 const Season = sequelize.define('Season', {
   id: {
@@ -76,6 +76,11 @@ const Season = sequelize.define('Season', {
     type: DataTypes.STRING,
     allowNull: true,
     comment: 'Track Wrestling tournament ID where this performance occurred'
+  },
+  grade: {
+    type: DataTypes.STRING(10),
+    allowNull: true,
+    comment: 'Grade level during this season (e.g., "9th", "10th", "11th", "12th", "Fr", "So", "Jr", "Sr")'
   },
 }, {
   tableName: 'seasons',

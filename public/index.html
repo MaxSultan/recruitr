@@ -63,6 +63,22 @@
                             <option value="">All Divisions</option>
                         </select>
                     </div>
+                    
+                    <div class="filter-group">
+                        <label for="gradeFilter">Grade:</label>
+                        <select id="gradeFilter">
+                            <option value="">All Grades</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="favoritesFilter">Favorites:</label>
+                        <select id="favoritesFilter">
+                            <option value="">All Athletes</option>
+                            <option value="favorites">Favorites Only</option>
+                            <option value="non-favorites">Non-Favorites Only</option>
+                        </select>
+                    </div>
                 </div>
                 
                 <div class="filter-actions">
@@ -96,8 +112,15 @@
             </div>
         </div>
 
+        <!-- Tournament Scraper Toggle -->
+        <div class="scraper-toggle-container">
+            <button id="toggleScraperBtn" class="btn btn-secondary">
+                <i class="fas fa-plus"></i> Add Tournament Data
+            </button>
+        </div>
+
         <!-- Tournament Scraper Section -->
-        <div class="scraper-section">
+        <div class="scraper-section" id="scraperSection" style="display: none;">
             <div class="scraper-header">
                 <h3><i class="fas fa-download"></i> Add Tournament Data</h3>
                 <p>Scrape wrestling tournament data and add it to the database</p>

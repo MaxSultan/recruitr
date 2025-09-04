@@ -86,10 +86,16 @@ class TournamentParticipantsScraper {
       const placementText = $(element).find('> p').first().text().trim();
       const titleText = $(element).find('> h2').first().text().trim();
       
+      // Look for additional data that might contain grade information
+      const fullSectionText = $(element).text().trim();
+      const allParagraphs = $(element).find('p').map((i, p) => $(p).text().trim()).get();
+      
       if (placementText && titleText) {
         sections.push({
           titleText: titleText,
-          placementText: placementText
+          placementText: placementText,
+          fullText: fullSectionText,
+          allParagraphs: allParagraphs
         });
       }
     });
@@ -104,6 +110,16 @@ class TournamentParticipantsScraper {
         const metaData = this.parseDivisionAndWeight(result.titleText);
         const nameParts = name.trim().split(' ');
         
+        // Extract grade information from available data
+        const gradeInfo = this.extractGradeInfo(result);
+        
+        // Debug logging for grade extraction
+        if (gradeInfo) {
+          console.log(`✅ Found grade "${gradeInfo}" for ${name}`);
+        } else {
+          console.log(`⚠️  No grade found for ${name}. Title: "${result.titleText}", Full: "${result.fullText.substring(0, 100)}..."`);
+        }
+        
         results.push({
           firstName: nameParts[0] || '',
           lastName: nameParts.slice(1).join(' ') || '',
@@ -115,7 +131,7 @@ class TournamentParticipantsScraper {
           year: this.year,
           division: metaData?.division || '',
           weightClass: metaData?.weightClass || '',
-          grade: ''
+          grade: gradeInfo || ''
         });
       } else {
         console.log('No match found for placement text:', result.placementText);
@@ -173,6 +189,84 @@ class TournamentParticipantsScraper {
     }
 
     return null;
+  }
+
+  extractGradeInfo(sectionData) {
+    // Look for grade information in various formats
+    const { titleText, placementText, fullText, allParagraphs } = sectionData;
+    
+    // Common grade patterns to look for
+    const gradePatterns = [
+      // Numeric grades: "9th", "10th", "11th", "12th"
+      /(\d+)(?:st|nd|rd|th)[\s\-]?(?:grade)?/i,
+      // Letter grades: "Fr", "So", "Jr", "Sr", "Freshman", "Sophomore", etc.
+      /(freshman|fr|sophomore|so|junior|jr|senior|sr)(?:\s+grade)?/i,
+      // Grade in parentheses: "(12th)", "(Sr)", etc.
+      /\(([^)]*(?:grade|fr|so|jr|sr|\d+(?:st|nd|rd|th)))\)/i
+    ];
+    
+    // Search in title text first (most likely location)
+    for (const pattern of gradePatterns) {
+      let match = titleText.match(pattern);
+      if (match) {
+        return this.normalizeGrade(match[1]);
+      }
+    }
+    
+    // Search in all paragraphs
+    for (const paragraph of allParagraphs) {
+      for (const pattern of gradePatterns) {
+        let match = paragraph.match(pattern);
+        if (match) {
+          return this.normalizeGrade(match[1]);
+        }
+      }
+    }
+    
+    // Search in full section text as last resort
+    for (const pattern of gradePatterns) {
+      let match = fullText.match(pattern);
+      if (match) {
+        return this.normalizeGrade(match[1]);
+      }
+    }
+    
+    return null;
+  }
+
+  normalizeGrade(gradeString) {
+    if (!gradeString) return null;
+    
+    const grade = gradeString.toLowerCase().trim();
+    
+    // Convert common variations to standard format
+    const gradeMap = {
+      'freshman': 'Fr',
+      'fr': 'Fr',
+      'sophomore': 'So', 
+      'so': 'So',
+      'junior': 'Jr',
+      'jr': 'Jr',
+      'senior': 'Sr',
+      'sr': 'Sr',
+      '9': '9th',
+      '10': '10th',
+      '11': '11th', 
+      '12': '12th'
+    };
+    
+    // Check if it's in our mapping
+    if (gradeMap[grade]) {
+      return gradeMap[grade];
+    }
+    
+    // If it already looks like a proper grade (9th, 10th, etc.), return as-is
+    if (grade.match(/^\d+(st|nd|rd|th)$/)) {
+      return grade.charAt(0).toUpperCase() + grade.slice(1);
+    }
+    
+    // Return the original if we can't normalize it
+    return gradeString;
   }
 }
 
