@@ -252,15 +252,33 @@
 
             <!-- Pagination -->
             <div id="pagination" class="pagination">
-                <button id="prevPageBtn" class="btn btn-secondary">
-                    <i class="fas fa-chevron-left"></i> Previous
-                </button>
-                <div class="page-info">
-                    <span id="pageInfo">Page 1 of 1</span>
+                <div class="pagination-controls">
+                    <button id="prevPageBtn" class="btn btn-secondary">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    
+                    <div id="paginationPages" class="pagination-pages">
+                        <!-- Page number buttons will be inserted here -->
+                    </div>
+                    
+                    <button id="nextPageBtn" class="btn btn-secondary">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
-                <button id="nextPageBtn" class="btn btn-secondary">
-                    Next <i class="fas fa-chevron-right"></i>
-                </button>
+                
+                <div class="pagination-info">
+                    <div id="pageInfo" class="page-info">Page 1 of 1</div>
+                    <div class="page-size-controls">
+                        <label for="pageSizeSelect">Show:</label>
+                        <select id="pageSizeSelect">
+                            <option value="10">10</option>
+                            <option value="20" selected>20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        <span>per page</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

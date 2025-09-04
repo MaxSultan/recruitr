@@ -22,11 +22,22 @@ class AthleteApp {
 
     async init() {
         this.bindEvents();
+        this.initializeView();
         this.showLoading();
         await this.loadAthletes();
         this.populateFilters();
         this.renderAthletes();
         this.updateStats();
+    }
+    
+    initializeView() {
+        // Set initial view button states
+        document.getElementById('cardViewBtn').classList.add('active');
+        document.getElementById('tableViewBtn').classList.remove('active');
+        
+        // Set initial view visibility
+        document.getElementById('cardView').style.display = 'grid';
+        document.getElementById('tableView').style.display = 'none';
     }
 
     bindEvents() {
@@ -55,6 +66,7 @@ class AthleteApp {
         // Pagination
         document.getElementById('prevPageBtn').addEventListener('click', () => this.changePage(-1));
         document.getElementById('nextPageBtn').addEventListener('click', () => this.changePage(1));
+        document.getElementById('pageSizeSelect').addEventListener('change', (e) => this.changePageSize(parseInt(e.target.value)));
 
         // Modal
         document.getElementById('closeModal').addEventListener('click', () => this.closeModal());
@@ -306,6 +318,7 @@ class AthleteApp {
     renderAthletes() {
         if (this.filteredAthletes.length === 0) {
             this.showEmpty();
+            this.hidePagination();
             return;
         }
 
@@ -322,6 +335,7 @@ class AthleteApp {
         }
 
         this.updatePagination();
+        this.showPagination();
     }
 
     renderCardView(athletes) {
@@ -581,15 +595,120 @@ class AthleteApp {
         }
     }
 
+    changePageSize(newSize) {
+        this.itemsPerPage = newSize;
+        this.currentPage = 1; // Reset to first page when changing page size
+        this.renderAthletes();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     updatePagination() {
         const totalPages = Math.ceil(this.filteredAthletes.length / this.itemsPerPage);
         const pageInfo = document.getElementById('pageInfo');
         const prevBtn = document.getElementById('prevPageBtn');
         const nextBtn = document.getElementById('nextPageBtn');
 
-        pageInfo.textContent = `Page ${this.currentPage} of ${totalPages}`;
+        if (totalPages <= 1) {
+            this.hidePagination();
+            return;
+        }
+
+        const startItem = (this.currentPage - 1) * this.itemsPerPage + 1;
+        const endItem = Math.min(this.currentPage * this.itemsPerPage, this.filteredAthletes.length);
+        
+        pageInfo.innerHTML = `
+            <div>Page ${this.currentPage} of ${totalPages}</div>
+            <div class="pagination-info">Showing ${startItem}-${endItem} of ${this.filteredAthletes.length} athletes</div>
+        `;
+        
         prevBtn.disabled = this.currentPage <= 1;
         nextBtn.disabled = this.currentPage >= totalPages;
+        
+        // Update button text with page numbers
+        if (this.currentPage > 1) {
+            prevBtn.innerHTML = `<i class="fas fa-chevron-left"></i> Page ${this.currentPage - 1}`;
+        } else {
+            prevBtn.innerHTML = `<i class="fas fa-chevron-left"></i> Previous`;
+        }
+        
+        if (this.currentPage < totalPages) {
+            nextBtn.innerHTML = `Page ${this.currentPage + 1} <i class="fas fa-chevron-right"></i>`;
+        } else {
+            nextBtn.innerHTML = `Next <i class="fas fa-chevron-right"></i>`;
+        }
+        
+        // Generate page number buttons
+        this.generatePageNumbers(totalPages);
+    }
+    
+    generatePageNumbers(totalPages) {
+        const paginationPages = document.getElementById('paginationPages');
+        if (!paginationPages) return; // Skip if element doesn't exist
+        
+        paginationPages.innerHTML = '';
+        
+        if (totalPages <= 1) return;
+        
+        const maxVisiblePages = 7;
+        let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        // Adjust start page if we're near the end
+        if (endPage - startPage < maxVisiblePages - 1) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+        
+        // Add first page and ellipsis if needed
+        if (startPage > 1) {
+            this.createPageButton(1, paginationPages);
+            if (startPage > 2) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'pagination-ellipsis';
+                ellipsis.textContent = '...';
+                paginationPages.appendChild(ellipsis);
+            }
+        }
+        
+        // Add page numbers
+        for (let page = startPage; page <= endPage; page++) {
+            this.createPageButton(page, paginationPages);
+        }
+        
+        // Add ellipsis and last page if needed
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'pagination-ellipsis';
+                ellipsis.textContent = '...';
+                paginationPages.appendChild(ellipsis);
+            }
+            this.createPageButton(totalPages, paginationPages);
+        }
+    }
+    
+    createPageButton(pageNum, container) {
+        const button = document.createElement('button');
+        button.className = `btn btn-small pagination-page ${pageNum === this.currentPage ? 'active' : ''}`;
+        button.textContent = pageNum;
+        button.onclick = () => this.goToPage(pageNum);
+        container.appendChild(button);
+    }
+    
+    goToPage(pageNum) {
+        const totalPages = Math.ceil(this.filteredAthletes.length / this.itemsPerPage);
+        if (pageNum >= 1 && pageNum <= totalPages) {
+            this.currentPage = pageNum;
+            this.renderAthletes();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    showPagination() {
+        document.getElementById('pagination').style.display = 'flex';
+    }
+
+    hidePagination() {
+        document.getElementById('pagination').style.display = 'none';
     }
 
     updateStats() {
@@ -768,6 +887,10 @@ class AthleteApp {
         document.getElementById('loadingState').style.display = 'none';
         document.getElementById('errorState').style.display = 'none';
         document.getElementById('emptyState').style.display = 'none';
+        
+        // Show the appropriate view
+        document.getElementById('cardView').style.display = this.currentView === 'cards' ? 'grid' : 'none';
+        document.getElementById('tableView').style.display = this.currentView === 'table' ? 'block' : 'none';
     }
 
     hideOtherStates(except) {
