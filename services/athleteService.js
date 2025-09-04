@@ -205,8 +205,8 @@ class AthleteService {
         include: [{
           model: Season,
           as: 'seasons',
-          order: [['year', 'DESC']],
         }],
+        order: [[{ model: Season, as: 'seasons' }, 'year', 'DESC']],
       });
 
       return athlete;
@@ -246,10 +246,13 @@ class AthleteService {
         include: [{
           model: Season,
           as: 'seasons',
-          order: [['year', 'DESC']],
         }],
         limit,
-        order: [['lastName', 'ASC'], ['firstName', 'ASC']],
+        order: [
+          ['lastName', 'ASC'], 
+          ['firstName', 'ASC'],
+          [{ model: Season, as: 'seasons' }, 'year', 'DESC']
+        ],
       });
 
       return athletes;
