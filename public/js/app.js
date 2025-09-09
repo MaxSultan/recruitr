@@ -16,7 +16,7 @@ class AthleteApp {
             weightClass: '',
             division: '',
             grade: '',
-            favorites: ''
+            favorites: '',
         };
         
         this.init();
@@ -57,7 +57,7 @@ class AthleteApp {
         document.getElementById('divisionFilter').addEventListener('change', (e) => this.handleFilter('division', e.target.value));
         document.getElementById('gradeFilter').addEventListener('change', (e) => this.handleFilter('grade', e.target.value));
         document.getElementById('favoritesFilter').addEventListener('change', (e) => this.handleFilter('favorites', e.target.value));
-        document.getElementById('clearFiltersBtn').addEventListener('click', () => this.clearFilters());
+        document.getElementById('clearFiltersBtn').addEventListener('click', async () => await this.clearFilters());
 
         // Sorting
         document.getElementById('sortBy').addEventListener('change', (e) => this.handleSort(e.target.value, this.sortOrder));
@@ -109,6 +109,64 @@ class AthleteApp {
         document.getElementById('viewNewDataBtn').addEventListener('click', () => this.viewNewData());
         document.getElementById('scrapeAnotherBtn').addEventListener('click', () => this.resetScraper());
 
+        // Season management modals
+        document.getElementById('closeAddSeasonModal').addEventListener('click', () => this.closeSeasonModals());
+        document.getElementById('cancelAddSeason').addEventListener('click', () => this.closeSeasonModals());
+        document.getElementById('closeEditSeasonModal').addEventListener('click', () => this.closeSeasonModals());
+        document.getElementById('cancelEditSeason').addEventListener('click', () => this.closeSeasonModals());
+        document.getElementById('closeDeleteSeasonModal').addEventListener('click', () => this.closeSeasonModals());
+        document.getElementById('cancelDeleteSeason').addEventListener('click', () => this.closeSeasonModals());
+
+        // Season form submissions
+        document.getElementById('addSeasonForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const seasonData = {
+                year: formData.get('year') || document.getElementById('addSeasonYear').value,
+                weightClass: formData.get('weightClass') || document.getElementById('addSeasonWeightClass').value,
+                wins: parseInt(document.getElementById('addSeasonWins').value) || 0,
+                losses: parseInt(document.getElementById('addSeasonLosses').value) || 0,
+                statePlacement: document.getElementById('addSeasonPlacement').value || '',
+                pointsScored: parseFloat(document.getElementById('addSeasonPoints').value) || 0,
+                team: document.getElementById('addSeasonTeam').value || '',
+                division: document.getElementById('addSeasonDivision').value || '',
+                grade: document.getElementById('addSeasonGrade').value || '',
+                tournamentId: document.getElementById('addSeasonTournamentId').value || null
+            };
+            this.addSeason(seasonData);
+        });
+
+        document.getElementById('editSeasonForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const seasonId = document.getElementById('editSeasonId').value;
+            const seasonData = {
+                year: document.getElementById('editSeasonYear').value,
+                weightClass: document.getElementById('editSeasonWeightClass').value,
+                wins: parseInt(document.getElementById('editSeasonWins').value) || 0,
+                losses: parseInt(document.getElementById('editSeasonLosses').value) || 0,
+                statePlacement: document.getElementById('editSeasonPlacement').value || '',
+                pointsScored: parseFloat(document.getElementById('editSeasonPoints').value) || 0,
+                team: document.getElementById('editSeasonTeam').value || '',
+                division: document.getElementById('editSeasonDivision').value || '',
+                grade: document.getElementById('editSeasonGrade').value || '',
+                tournamentId: document.getElementById('editSeasonTournamentId').value || null
+            };
+            this.editSeason(seasonId, seasonData);
+        });
+
+        document.getElementById('confirmDeleteSeason').addEventListener('click', () => {
+            if (this.seasonToDelete) {
+                this.deleteSeason(this.seasonToDelete);
+            }
+        });
+
+        // Close modals on backdrop click
+        ['addSeasonModal', 'editSeasonModal', 'deleteSeasonModal'].forEach(modalId => {
+            document.getElementById(modalId).addEventListener('click', (e) => {
+                if (e.target.id === modalId) this.closeSeasonModals();
+            });
+        });
+
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') this.closeModal();
@@ -132,6 +190,24 @@ class AthleteApp {
             this.hideLoading();
         } catch (error) {
             console.error('Error loading athletes:', error);
+            this.showError();
+        }
+    }
+
+    async loadSearchResults(query) {
+        try {
+            this.showLoading();
+            // Load search results from server
+            const response = await fetch(`/athletes/search?q=${encodeURIComponent(query)}&limit=1000`);
+            if (!response.ok) throw new Error('Failed to search athletes');
+            
+            const data = await response.json();
+            this.athletes = data.data || [];
+            this.filteredAthletes = [...this.athletes];
+            
+            this.hideLoading();
+        } catch (error) {
+            console.error('Error searching athletes:', error);
             this.showError();
         }
     }
@@ -172,8 +248,18 @@ class AthleteApp {
         }
     }
 
-    handleSearch(query) {
+    async handleSearch(query) {
         this.filters.search = query.toLowerCase();
+        
+        // If there's a search query, fetch filtered results from server
+        // Otherwise, reload all athletes
+        if (query && query.trim()) {
+            await this.loadSearchResults(query.trim());
+        } else {
+            await this.loadAthletes();
+            this.populateFilters();
+        }
+        
         this.applyFilters();
     }
 
@@ -182,7 +268,10 @@ class AthleteApp {
         this.applyFilters();
     }
 
-    clearFilters() {
+
+
+
+    async clearFilters() {
         this.filters = {
             search: '',
             state: '',
@@ -191,7 +280,7 @@ class AthleteApp {
             weightClass: '',
             division: '',
             grade: '',
-            favorites: ''
+            favorites: '',
         };
         
         // Reset form elements
@@ -204,19 +293,16 @@ class AthleteApp {
         document.getElementById('gradeFilter').value = '';
         document.getElementById('favoritesFilter').value = '';
         
+        // Reload all athletes when clearing search
+        await this.loadAthletes();
+        this.populateFilters();
         this.applyFilters();
     }
 
     applyFilters() {
         this.filteredAthletes = this.athletes.filter(athlete => {
-            // Search filter
-            if (this.filters.search) {
-                const searchTerm = this.filters.search;
-                const matchesName = athlete.firstName.toLowerCase().includes(searchTerm) || 
-                                  athlete.lastName.toLowerCase().includes(searchTerm);
-                const matchesTeam = athlete.seasons.some(s => s.team.toLowerCase().includes(searchTerm));
-                if (!matchesName && !matchesTeam) return false;
-            }
+            // Skip search filter - handled at server level in handleSearch()
+            // Search results are already loaded into this.athletes
 
             // State filter
             if (this.filters.state && athlete.state !== this.filters.state) return false;
@@ -238,6 +324,7 @@ class AthleteApp {
                 if (this.filters.favorites === 'favorites' && !athlete.isFavorite) return false;
                 if (this.filters.favorites === 'non-favorites' && athlete.isFavorite) return false;
             }
+
 
             return true;
         });
@@ -366,7 +453,6 @@ class AthleteApp {
         }
 
         this.updatePagination();
-        this.showPagination();
     }
 
     renderCardView(athletes) {
@@ -582,13 +668,28 @@ class AthleteApp {
             </div>
             
             <div class="seasons-details">
-                <h3>Season History</h3>
+                <div class="seasons-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h3>Season History</h3>
+                    <button class="btn btn-primary btn-small" onclick="app.openAddSeasonModal(${athlete.id})">
+                        <i class="fas fa-plus"></i> Add Season
+                    </button>
+                </div>
                 <div class="seasons-list">
                     ${athlete.seasons.map(season => `
-                        <div class="season-item" style="margin-bottom: 1rem;">
-                            <div class="season-header">
-                                <span class="season-team" style="font-size: 1.1rem;">${season.team}</span>
-                                <span class="season-year">${season.year}</span>
+                        <div class="season-item" style="margin-bottom: 1rem; border: 1px solid #ddd; border-radius: 8px; padding: 1rem; position: relative;">
+                            <div class="season-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;">
+                                <div class="season-title">
+                                    <span class="season-team" style="font-size: 1.1rem; font-weight: 600;">${season.team}</span>
+                                    <span class="season-year" style="background: #3b82f6; color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.875rem; margin-left: 0.75rem;">${season.year}</span>
+                                </div>
+                                <div class="season-actions" style="display: flex; gap: 0.5rem; flex-shrink: 0;">
+                                    <button class="btn btn-small btn-secondary" onclick="app.openEditSeasonModal(${season.id})" title="Edit Season">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-small btn-danger" onclick="app.openDeleteSeasonModal(${season.id}, '${season.year}', '${season.weightClass}', '${season.team}')" title="Delete Season">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
                             </div>
                             <div class="season-details" style="margin-top: 0.5rem;">
                                 <div class="season-stat">
@@ -633,6 +734,231 @@ class AthleteApp {
     closeModal() {
         document.getElementById('athleteModal').style.display = 'none';
         document.body.style.overflow = 'auto';
+    }
+
+    // Season management methods
+    openAddSeasonModal(athleteId) {
+        this.currentAthleteId = athleteId;
+        const modal = document.getElementById('addSeasonModal');
+        
+        // Reset form
+        document.getElementById('addSeasonForm').reset();
+        
+        // Set default year to current year
+        document.getElementById('addSeasonYear').value = new Date().getFullYear();
+        
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    async openEditSeasonModal(seasonId) {
+        try {
+            // Fetch season data
+            const response = await fetch(`/seasons/${seasonId}`);
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.error || 'Failed to fetch season data');
+            }
+            
+            const season = data.data;
+            
+            // Populate form with season data
+            document.getElementById('editSeasonId').value = season.id;
+            document.getElementById('editSeasonYear').value = season.year;
+            document.getElementById('editSeasonWeightClass').value = season.weightClass || '';
+            document.getElementById('editSeasonWins').value = season.wins || 0;
+            document.getElementById('editSeasonLosses').value = season.losses || 0;
+            document.getElementById('editSeasonPlacement').value = season.statePlacement || '';
+            document.getElementById('editSeasonPoints').value = season.pointsScored || 0;
+            document.getElementById('editSeasonTeam').value = season.team || '';
+            document.getElementById('editSeasonDivision').value = season.division || '';
+            document.getElementById('editSeasonGrade').value = season.grade || '';
+            document.getElementById('editSeasonTournamentId').value = season.tournamentId || '';
+            
+            const modal = document.getElementById('editSeasonModal');
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+        } catch (error) {
+            console.error('Error fetching season data:', error);
+            alert('Failed to load season data: ' + error.message);
+        }
+    }
+
+    openDeleteSeasonModal(seasonId, year, weightClass, team) {
+        this.seasonToDelete = seasonId;
+        
+        // Populate delete confirmation info
+        document.getElementById('deleteSeasonInfo').innerHTML = `
+            <div class="season-summary">
+                <strong>${year} - ${weightClass}lbs</strong><br>
+                <span style="color: #666;">${team}</span>
+            </div>
+        `;
+        
+        const modal = document.getElementById('deleteSeasonModal');
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeSeasonModals() {
+        const modals = ['addSeasonModal', 'editSeasonModal', 'deleteSeasonModal'];
+        modals.forEach(modalId => {
+            document.getElementById(modalId).style.display = 'none';
+        });
+        document.body.style.overflow = 'auto';
+    }
+
+    async addSeason(formData) {
+        try {
+            const response = await fetch(`/athletes/${this.currentAthleteId}/seasons`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.error || 'Failed to add season');
+            }
+            
+            console.log('Season added successfully:', data.data);
+            this.closeSeasonModals();
+            
+            // Refresh the athlete data and update the modal
+            await this.refreshAthleteInModal(this.currentAthleteId);
+            
+            // Show success message
+            this.showNotification('Season added successfully!', 'success');
+            
+        } catch (error) {
+            console.error('Error adding season:', error);
+            alert('Failed to add season: ' + error.message);
+        }
+    }
+
+    async editSeason(seasonId, formData) {
+        try {
+            const response = await fetch(`/seasons/${seasonId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.error || 'Failed to update season');
+            }
+            
+            console.log('Season updated successfully:', data.data);
+            this.closeSeasonModals();
+            
+            // Refresh the athlete data and update the modal
+            await this.refreshAthleteInModal(data.data.athlete.id);
+            
+            // Show success message
+            this.showNotification('Season updated successfully!', 'success');
+            
+        } catch (error) {
+            console.error('Error updating season:', error);
+            alert('Failed to update season: ' + error.message);
+        }
+    }
+
+    async deleteSeason(seasonId) {
+        try {
+            const response = await fetch(`/seasons/${seasonId}`, {
+                method: 'DELETE'
+            });
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.error || 'Failed to delete season');
+            }
+            
+            console.log('Season deleted successfully:', data.data);
+            this.closeSeasonModals();
+            
+            // Refresh athlete data - we need to get the athlete ID from the current modal
+            const athleteTitle = document.getElementById('modalAthleteTitle').textContent;
+            const athlete = this.athletes.find(a => `${a.firstName} ${a.lastName}` === athleteTitle);
+            if (athlete) {
+                await this.refreshAthleteInModal(athlete.id);
+            }
+            
+            // Show success message
+            this.showNotification('Season deleted successfully!', 'success');
+            
+        } catch (error) {
+            console.error('Error deleting season:', error);
+            alert('Failed to delete season: ' + error.message);
+        }
+    }
+
+    async refreshAthleteInModal(athleteId) {
+        try {
+            const response = await fetch(`/athletes/${athleteId}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                const updatedAthlete = data.data;
+                
+                // Update the athlete in our local array
+                const index = this.athletes.findIndex(a => a.id === athleteId);
+                if (index !== -1) {
+                    this.athletes[index] = updatedAthlete;
+                }
+                
+                // Refresh the modal display
+                this.showAthleteDetails(updatedAthlete);
+                
+                // Also refresh the main view
+                this.renderAthletes();
+            }
+        } catch (error) {
+            console.error('Error refreshing athlete data:', error);
+        }
+    }
+
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 10000;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 300);
+        }, 3000);
     }
 
     // Manual merge interface
@@ -855,6 +1181,9 @@ class AthleteApp {
         
         // Generate page number buttons
         this.generatePageNumbers(totalPages);
+        
+        // Show pagination (only when we have multiple pages)
+        this.showPagination();
     }
     
     generatePageNumbers(totalPages) {
@@ -920,7 +1249,7 @@ class AthleteApp {
     }
 
     showPagination() {
-        document.getElementById('pagination').style.display = 'flex';
+        document.getElementById('pagination').style.display = 'block';
     }
 
     hidePagination() {
@@ -1354,7 +1683,7 @@ class AthleteApp {
         this.updateStats();
         
         // Clear any existing filters to show all data
-        this.clearFilters();
+        await this.clearFilters();
         
         // Scroll to the results section
         document.querySelector('.results-section').scrollIntoView({ 

@@ -69,13 +69,14 @@ class AthleteService {
       } = seasonData;
 
       // Check if season already exists (prevent duplicates)
+      // Only match seasons with the exact same tournament ID to allow multiple tournaments per athlete
       const existingSeason = await Season.findOne({
         where: {
           athleteId,
           year,
-          weightClass: weightClass || null,
+          weightClass,
           team,
-          tournamentId: seasonData.tournamentId || null,
+          tournamentId: seasonData.tournamentId,
         },
       });
 
@@ -92,7 +93,7 @@ class AthleteService {
         });
         
         console.log(`🔄 Updated existing season for athlete ID ${athleteId}`);
-        return existingSeason;
+        return { season: existingSeason, wasCreated: false };
       }
 
       // Create new season
@@ -110,7 +111,7 @@ class AthleteService {
       });
 
       console.log(`✅ Created new season for athlete ID ${athleteId}: ${year} ${weightClass || 'N/A'} (${wins}-${losses})`);
-      return season;
+      return { season, wasCreated: true };
     } catch (error) {
       console.error(`❌ Error creating season for athlete ID ${athleteId}:`, error);
       throw error;
@@ -146,9 +147,9 @@ class AthleteService {
         }
 
         // Create season (include tournament ID)
-        const season = await this.createSeason(athlete.id, { ...seasonData, tournamentId });
+        const { season, wasCreated } = await this.createSeason(athlete.id, { ...seasonData, tournamentId });
         
-        if (season.createdAt === season.updatedAt) {
+        if (wasCreated) {
           createdSeasons++;
         } else {
           updatedSeasons++;
@@ -360,6 +361,127 @@ class AthleteService {
       throw error;
     }
   }
+
+  /**
+   * Update an existing season
+   */
+  async updateSeason(seasonId, updateData) {
+    try {
+      const season = await Season.findByPk(seasonId);
+      
+      if (!season) {
+        return null;
+      }
+
+      // Update the season with provided data
+      await season.update(updateData);
+      
+      // Return the updated season with athlete information
+      const updatedSeason = await Season.findByPk(seasonId, {
+        include: [{
+          model: Athlete,
+          as: 'athlete'
+        }]
+      });
+
+      console.log(`✅ Updated season ${seasonId} for athlete ${updatedSeason.athlete.firstName} ${updatedSeason.athlete.lastName}`);
+      return updatedSeason;
+    } catch (error) {
+      console.error(`❌ Error updating season ${seasonId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new season
+   */
+  async createNewSeason(athleteId, seasonData) {
+    try {
+      // Check if athlete exists
+      const athlete = await Athlete.findByPk(athleteId);
+      if (!athlete) {
+        return { error: 'Athlete not found' };
+      }
+
+      // Create the new season
+      const newSeason = await Season.create({
+        athleteId,
+        ...seasonData
+      });
+
+      // Return the new season with athlete information
+      const seasonWithAthlete = await Season.findByPk(newSeason.id, {
+        include: [{
+          model: Athlete,
+          as: 'athlete'
+        }]
+      });
+
+      console.log(`✅ Created new season for athlete ${athlete.firstName} ${athlete.lastName}: ${seasonData.year} ${seasonData.weightClass}`);
+      return seasonWithAthlete;
+    } catch (error) {
+      console.error(`❌ Error creating season for athlete ${athleteId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a season
+   */
+  async deleteSeason(seasonId) {
+    try {
+      const season = await Season.findByPk(seasonId, {
+        include: [{
+          model: Athlete,
+          as: 'athlete'
+        }]
+      });
+      
+      if (!season) {
+        return null;
+      }
+
+      const athleteName = `${season.athlete.firstName} ${season.athlete.lastName}`;
+      const seasonInfo = `${season.year} ${season.weightClass}`;
+      
+      await season.destroy();
+      
+      console.log(`✅ Deleted season ${seasonInfo} for athlete ${athleteName}`);
+      return { 
+        success: true, 
+        deletedSeason: {
+          id: seasonId,
+          athlete: athleteName,
+          year: season.year,
+          weightClass: season.weightClass
+        }
+      };
+    } catch (error) {
+      console.error(`❌ Error deleting season ${seasonId}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get a single season by ID
+   */
+  async getSeasonById(seasonId) {
+    try {
+      const season = await Season.findByPk(seasonId, {
+        include: [{
+          model: Athlete,
+          as: 'athlete'
+        }]
+      });
+      
+      return season;
+    } catch (error) {
+      console.error(`❌ Error getting season ${seasonId}:`, error);
+      throw error;
+    }
+  }
+
+
 
 }
 

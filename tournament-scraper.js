@@ -99,8 +99,7 @@ class TournamentParticipantsScraper {
         });
       }
     });
-
-    const pattern = /^(.*) \((\d+-\d+)\) place(?:d)? (\w+(?:\s\w+)?) and scored (\d+\.\d+) team points\./;
+    const pattern = /^(.*) \((\d+-\d+)\) place(?:d)? (\w+(?:\s\w+)*) and scored (\d+(?:\.\d+)?) team points\.?/;
     const results = [];
 
     sections.forEach(result => {
@@ -184,6 +183,15 @@ class TournamentParticipantsScraper {
     if (match) {
       return {
         division: match[2],
+        weightClass: match[1]
+      };
+    }
+    
+    // pattern 3: "125"
+    match = str.match(/^(\d+)$/);
+    if (match) {
+      return {
+        division: '',
         weightClass: match[1]
       };
     }

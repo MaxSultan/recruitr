@@ -79,6 +79,7 @@
                             <option value="non-favorites">Non-Favorites Only</option>
                         </select>
                     </div>
+                    
                 </div>
                 
                 <div class="filter-actions">
@@ -372,6 +373,209 @@
                         <i class="fas fa-compress-arrows-alt"></i> Merge Athletes
                     </button>
                     <button id="cancelMergeBtn" class="btn btn-secondary">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Season Management Modals -->
+
+    <!-- Add Season Modal -->
+    <div id="addSeasonModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Add New Season</h2>
+                <button id="closeAddSeasonModal" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addSeasonForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addSeasonYear">Year *</label>
+                            <input type="number" id="addSeasonYear" min="2020" max="2030" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="addSeasonWeightClass">Weight Class *</label>
+                            <input type="text" id="addSeasonWeightClass" placeholder="e.g., 165" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addSeasonWins">Wins</label>
+                            <input type="number" id="addSeasonWins" min="0" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="addSeasonLosses">Losses</label>
+                            <input type="number" id="addSeasonLosses" min="0" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addSeasonPlacement">State Placement</label>
+                            <input type="text" id="addSeasonPlacement" placeholder="e.g., 1st, 2nd, 3rd">
+                        </div>
+                        <div class="form-group">
+                            <label for="addSeasonPoints">Points Scored</label>
+                            <input type="number" id="addSeasonPoints" min="0" step="0.5" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addSeasonTeam">Team</label>
+                            <input type="text" id="addSeasonTeam" placeholder="Team name">
+                        </div>
+                        <div class="form-group">
+                            <label for="addSeasonDivision">Division</label>
+                            <input type="text" id="addSeasonDivision" placeholder="e.g., 4A, 5A">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="addSeasonGrade">Grade</label>
+                            <select id="addSeasonGrade">
+                                <option value="">Select Grade</option>
+                                <option value="Fr">Freshman (Fr)</option>
+                                <option value="So">Sophomore (So)</option>
+                                <option value="Jr">Junior (Jr)</option>
+                                <option value="Sr">Senior (Sr)</option>
+                                <option value="9th">9th Grade</option>
+                                <option value="10th">10th Grade</option>
+                                <option value="11th">11th Grade</option>
+                                <option value="12th">12th Grade</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="addSeasonTournamentId">Tournament ID</label>
+                            <input type="text" id="addSeasonTournamentId" placeholder="Optional">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Season
+                        </button>
+                        <button type="button" id="cancelAddSeason" class="btn btn-secondary">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Season Modal -->
+    <div id="editSeasonModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Edit Season</h2>
+                <button id="closeEditSeasonModal" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editSeasonForm">
+                    <input type="hidden" id="editSeasonId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editSeasonYear">Year *</label>
+                            <input type="number" id="editSeasonYear" min="2020" max="2030" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSeasonWeightClass">Weight Class *</label>
+                            <input type="text" id="editSeasonWeightClass" placeholder="e.g., 165" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editSeasonWins">Wins</label>
+                            <input type="number" id="editSeasonWins" min="0" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSeasonLosses">Losses</label>
+                            <input type="number" id="editSeasonLosses" min="0" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editSeasonPlacement">State Placement</label>
+                            <input type="text" id="editSeasonPlacement" placeholder="e.g., 1st, 2nd, 3rd">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSeasonPoints">Points Scored</label>
+                            <input type="number" id="editSeasonPoints" min="0" step="0.5" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editSeasonTeam">Team</label>
+                            <input type="text" id="editSeasonTeam" placeholder="Team name">
+                        </div>
+                        <div class="form-group">
+                            <label for="editSeasonDivision">Division</label>
+                            <input type="text" id="editSeasonDivision" placeholder="e.g., 4A, 5A">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editSeasonGrade">Grade</label>
+                            <select id="editSeasonGrade">
+                                <option value="">Select Grade</option>
+                                <option value="Fr">Freshman (Fr)</option>
+                                <option value="So">Sophomore (So)</option>
+                                <option value="Jr">Junior (Jr)</option>
+                                <option value="Sr">Senior (Sr)</option>
+                                <option value="9th">9th Grade</option>
+                                <option value="10th">10th Grade</option>
+                                <option value="11th">11th Grade</option>
+                                <option value="12th">12th Grade</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSeasonTournamentId">Tournament ID</label>
+                            <input type="text" id="editSeasonTournamentId" placeholder="Optional">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <button type="button" id="cancelEditSeason" class="btn btn-secondary">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Season Confirmation Modal -->
+    <div id="deleteSeasonModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2>Delete Season</h2>
+                <button id="closeDeleteSeasonModal" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="delete-confirmation">
+                    <div class="warning-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <p>Are you sure you want to delete this season?</p>
+                    <div id="deleteSeasonInfo" class="season-info">
+                        <!-- Season info will be populated here -->
+                    </div>
+                    <p class="warning-text">This action cannot be undone.</p>
+                </div>
+                <div class="form-actions">
+                    <button id="confirmDeleteSeason" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete Season
+                    </button>
+                    <button id="cancelDeleteSeason" class="btn btn-secondary">
                         Cancel
                     </button>
                 </div>

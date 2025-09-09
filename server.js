@@ -29,6 +29,171 @@ app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
+// Season management endpoints
+
+// Get a single season by ID
+app.get('/seasons/:seasonId', async (req, res) => {
+  try {
+    const { seasonId } = req.params;
+    
+    if (!seasonId || isNaN(parseInt(seasonId))) {
+      return res.status(400).json({
+        error: 'Valid season ID is required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    const season = await athleteService.getSeasonById(parseInt(seasonId));
+    
+    if (!season) {
+      return res.status(404).json({
+        error: 'Season not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: season,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Get season error:', error);
+    res.status(500).json({
+      error: 'Failed to get season',
+      message: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Update an existing season
+app.put('/seasons/:seasonId', async (req, res) => {
+  try {
+    const { seasonId } = req.params;
+    const updateData = req.body;
+    
+    if (!seasonId || isNaN(parseInt(seasonId))) {
+      return res.status(400).json({
+        error: 'Valid season ID is required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    if (!updateData || Object.keys(updateData).length === 0) {
+      return res.status(400).json({
+        error: 'Update data is required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    const updatedSeason = await athleteService.updateSeason(parseInt(seasonId), updateData);
+    
+    if (!updatedSeason) {
+      return res.status(404).json({
+        error: 'Season not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: updatedSeason,
+      message: 'Season updated successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Update season error:', error);
+    res.status(500).json({
+      error: 'Failed to update season',
+      message: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Create a new season for an athlete
+app.post('/athletes/:athleteId/seasons', async (req, res) => {
+  try {
+    const { athleteId } = req.params;
+    const seasonData = req.body;
+    
+    if (!athleteId || isNaN(parseInt(athleteId))) {
+      return res.status(400).json({
+        error: 'Valid athlete ID is required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    if (!seasonData || !seasonData.year || !seasonData.weightClass) {
+      return res.status(400).json({
+        error: 'Season data with year and weightClass is required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    const newSeason = await athleteService.createNewSeason(parseInt(athleteId), seasonData);
+    
+    if (newSeason.error) {
+      return res.status(404).json({
+        error: newSeason.error,
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    res.status(201).json({
+      success: true,
+      data: newSeason,
+      message: 'Season created successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Create season error:', error);
+    res.status(500).json({
+      error: 'Failed to create season',
+      message: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Delete a season
+app.delete('/seasons/:seasonId', async (req, res) => {
+  try {
+    const { seasonId } = req.params;
+    
+    if (!seasonId || isNaN(parseInt(seasonId))) {
+      return res.status(400).json({
+        error: 'Valid season ID is required',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    const result = await athleteService.deleteSeason(parseInt(seasonId));
+    
+    if (!result) {
+      return res.status(404).json({
+        error: 'Season not found',
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: result,
+      message: 'Season deleted successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Delete season error:', error);
+    res.status(500).json({
+      error: 'Failed to delete season',
+      message: error.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // Serve the main UI
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -359,6 +524,10 @@ async function startServer() {
       console.log(`   GET  /athletes/:id`);
       console.log(`   PATCH /athletes/:id/favorite`);
       console.log(`   POST /athletes/merge`);
+      console.log(`   GET  /seasons/:seasonId`);
+      console.log(`   PUT  /seasons/:seasonId`);
+      console.log(`   POST /athletes/:athleteId/seasons`);
+      console.log(`   DELETE /seasons/:seasonId`);
       console.log(`\n🔗 Quick start:`);
       console.log(`   1. Open http://localhost:${PORT} in your browser`);
       console.log(`   2. Or curl http://localhost:${PORT}/health`);
