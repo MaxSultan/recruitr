@@ -13,7 +13,7 @@ class AthleteService {
         lastName: lastName.trim(),
       };
 
-      // If state is provided, prefer athletes from that state
+      // If state is provided, only look for athletes from that state
       if (state) {
         whereClause.state = state;
       }
@@ -21,16 +21,6 @@ class AthleteService {
       let athlete = await Athlete.findOne({
         where: whereClause,
       });
-
-      // If not found with state, try without state constraint
-      if (!athlete && state) {
-        athlete = await Athlete.findOne({
-          where: {
-            firstName: firstName.trim(),
-            lastName: lastName.trim(),
-          },
-        });
-      }
 
       // If still not found, create new athlete
       if (!athlete) {
@@ -66,16 +56,13 @@ class AthleteService {
         year,
         weightClass,
         division,
+        grade,
       } = seasonData;
 
       // Check if season already exists (prevent duplicates)
-      // Only match seasons with the exact same tournament ID to allow multiple tournaments per athlete
       const existingSeason = await Season.findOne({
         where: {
           athleteId,
-          year,
-          weightClass,
-          team,
           tournamentId: seasonData.tournamentId,
         },
       });
@@ -90,10 +77,13 @@ class AthleteService {
           statePlacement,
           pointsScored,
           division,
+          grade,
         });
         
         console.log(`🔄 Updated existing season for athlete ID ${athleteId}`);
         return { season: existingSeason, wasCreated: false };
+      } else {
+        console.log(`🔍 No existing season found for athlete ID ${athleteId}, tournament ${seasonData.tournamentId}`);
       }
 
       // Create new season
@@ -107,6 +97,7 @@ class AthleteService {
         year,
         weightClass,
         division,
+        grade,
         tournamentId: seasonData.tournamentId || null,
       });
 
@@ -220,7 +211,7 @@ class AthleteService {
   /**
    * Search athletes by name
    */
-  async searchAthletes(query, limit = 50) {
+  async searchAthletes(query) {
     try {
       let whereClause = {};
       
@@ -248,7 +239,6 @@ class AthleteService {
           model: Season,
           as: 'seasons',
         }],
-        limit,
         order: [
           ['lastName', 'ASC'], 
           ['firstName', 'ASC'],
@@ -481,7 +471,46 @@ class AthleteService {
     }
   }
 
+  /**
+   * Find a season by athlete ID and year
+   */
+  async findSeasonByAthleteAndYear(athleteId, year) {
+    try {
+      const season = await Season.findOne({
+        where: {
+          athleteId: athleteId,
+          year: year.toString()
+        }
+      });
 
+      return season;
+    } catch (error) {
+      console.error(`❌ Error finding season for athlete ${athleteId} and year ${year}:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Find a season by exact match (athlete, year, weight, team, tournament)
+   */
+  async findSeasonByExactMatch(athleteId, year, weightClass, team, tournamentId) {
+    try {
+      const season = await Season.findOne({
+        where: {
+          athleteId: athleteId,
+          year: year.toString(),
+          weightClass: weightClass,
+          team: team,
+          tournamentId: tournamentId
+        }
+      });
+
+      return season;
+    } catch (error) {
+      console.error(`❌ Error finding exact season match:`, error);
+      throw error;
+    }
+  }
 
 }
 

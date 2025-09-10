@@ -196,6 +196,8 @@ class TournamentParticipantsScraper {
       };
     }
 
+    //pattern 4: "125-5A"
+
     return null;
   }
 

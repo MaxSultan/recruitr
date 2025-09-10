@@ -180,7 +180,7 @@ class AthleteApp {
     async loadAthletes() {
         try {
             // Load all athletes with a high limit
-            const response = await fetch('/athletes/search?q=&limit=1000');
+            const response = await fetch('/api/athletes/search');
             if (!response.ok) throw new Error('Failed to load athletes');
             
             const data = await response.json();
@@ -198,7 +198,7 @@ class AthleteApp {
         try {
             this.showLoading();
             // Load search results from server
-            const response = await fetch(`/athletes/search?q=${encodeURIComponent(query)}&limit=1000`);
+            const response = await fetch(`/api/athletes/search?q=${encodeURIComponent(query)}`);
             if (!response.ok) throw new Error('Failed to search athletes');
             
             const data = await response.json();
@@ -754,7 +754,7 @@ class AthleteApp {
     async openEditSeasonModal(seasonId) {
         try {
             // Fetch season data
-            const response = await fetch(`/seasons/${seasonId}`);
+            const response = await fetch(`/api/seasons/${seasonId}`);
             const data = await response.json();
             
             if (!data.success) {
@@ -812,7 +812,7 @@ class AthleteApp {
 
     async addSeason(formData) {
         try {
-            const response = await fetch(`/athletes/${this.currentAthleteId}/seasons`, {
+            const response = await fetch(`/api/athletes/${this.currentAthleteId}/seasons`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -843,7 +843,7 @@ class AthleteApp {
 
     async editSeason(seasonId, formData) {
         try {
-            const response = await fetch(`/seasons/${seasonId}`, {
+            const response = await fetch(`/api/seasons/${seasonId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -874,7 +874,7 @@ class AthleteApp {
 
     async deleteSeason(seasonId) {
         try {
-            const response = await fetch(`/seasons/${seasonId}`, {
+            const response = await fetch(`/api/seasons/${seasonId}`, {
                 method: 'DELETE'
             });
             
@@ -905,7 +905,7 @@ class AthleteApp {
 
     async refreshAthleteInModal(athleteId) {
         try {
-            const response = await fetch(`/athletes/${athleteId}`);
+            const response = await fetch(`/api/athletes/${athleteId}`);
             const data = await response.json();
             
             if (data.success) {
@@ -1094,7 +1094,7 @@ class AthleteApp {
         }
 
         try {
-            const response = await fetch('/athletes/merge', {
+            const response = await fetch('/api/athletes/merge', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1454,7 +1454,7 @@ class AthleteApp {
     // Favorites functionality
     async toggleFavorite(athleteId) {
         try {
-            const response = await fetch(`/athletes/${athleteId}/favorite`, {
+            const response = await fetch(`/api/athletes/${athleteId}/favorite`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1538,7 +1538,7 @@ class AthleteApp {
             this.updateProgress(25, 'Connecting to Track Wrestling...');
 
             // Make the scraping request
-            const response = await fetch('/tournament/scrape', {
+            const response = await fetch('/api/tournament/scrape', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

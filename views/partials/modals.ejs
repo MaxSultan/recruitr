@@ -1,0 +1,252 @@
+<!-- Tournament Scraping Modal -->
+<div id="tournamentModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-download"></i> Scrape Tournament Data</h3>
+            <button class="modal-close" onclick="closeModal('tournamentModal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="tournamentForm">
+                <div class="form-group">
+                    <label for="tournamentId">Tournament ID:</label>
+                    <input type="text" id="tournamentId" name="tournamentId" required 
+                           placeholder="Enter Track Wrestling tournament ID">
+                </div>
+                <div class="form-group">
+                    <label for="year">Year:</label>
+                    <input type="number" id="year" name="year" 
+                           value="<%= new Date().getFullYear() %>" min="2000" max="2030">
+                </div>
+                <div class="form-group">
+                    <label for="state">State (optional):</label>
+                    <input type="text" id="state" name="state" 
+                           placeholder="e.g., CA, TX, NY">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('tournamentModal')">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-primary" onclick="scrapeTournament()">
+                <i class="fas fa-download"></i> Scrape Tournament
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Merge Athletes Modal -->
+<div id="mergeModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-compress-arrows-alt"></i> Merge Athletes</h3>
+            <button class="modal-close" onclick="closeModal('mergeModal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Select two athletes to merge. The first athlete will be kept, and the second will be merged into it.</p>
+            <form id="mergeForm">
+                <div class="form-group">
+                    <label for="keepAthlete">Keep Athlete:</label>
+                    <select id="keepAthlete" name="keepAthlete" required>
+                        <option value="">Select athlete to keep...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="mergeAthlete">Merge Into:</label>
+                    <select id="mergeAthlete" name="mergeAthlete" required>
+                        <option value="">Select athlete to merge...</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('mergeModal')">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-warning" onclick="mergeAthletes()">
+                <i class="fas fa-compress-arrows-alt"></i> Merge Athletes
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Season Modal -->
+<div id="editSeasonModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-edit"></i> Edit Season</h3>
+            <button class="modal-close" onclick="closeModal('editSeasonModal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="editSeasonForm">
+                <input type="hidden" id="editSeasonId" name="seasonId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editYear">Year:</label>
+                        <input type="number" id="editYear" name="year" required min="2000" max="2030">
+                    </div>
+                    <div class="form-group">
+                        <label for="editWeightClass">Weight Class:</label>
+                        <input type="number" id="editWeightClass" name="weightClass" required min="80" max="400">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editDivision">Division:</label>
+                        <input type="text" id="editDivision" name="division" placeholder="e.g., 1A, 2A, 3A">
+                    </div>
+                    <div class="form-group">
+                        <label for="editTeam">Team:</label>
+                        <input type="text" id="editTeam" name="team" placeholder="Team name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editWins">Wins:</label>
+                        <input type="number" id="editWins" name="wins" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="editLosses">Losses:</label>
+                        <input type="number" id="editLosses" name="losses" min="0">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editPlace">Place:</label>
+                        <input type="text" id="editPlace" name="place" placeholder="e.g., 1st, 2nd, 3rd">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPointsScored">Points Scored:</label>
+                        <input type="number" id="editPointsScored" name="pointsScored" min="0" step="0.5">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editStatePlacement">State Placement:</label>
+                        <input type="text" id="editStatePlacement" name="statePlacement" placeholder="e.g., 1st, 2nd, 3rd">
+                    </div>
+                    <div class="form-group">
+                        <label for="editGrade">Grade:</label>
+                        <input type="text" id="editGrade" name="grade" placeholder="e.g., 9, 10, 11, 12">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('editSeasonModal')">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-primary" onclick="updateSeason()">
+                <i class="fas fa-save"></i> Update Season
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Season Modal -->
+<div id="addSeasonModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-plus"></i> Add Season</h3>
+            <button class="modal-close" onclick="closeModal('addSeasonModal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="addSeasonForm">
+                <input type="hidden" id="addSeasonAthleteId" name="athleteId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addYear">Year:</label>
+                        <input type="number" id="addYear" name="year" required min="2000" max="2030">
+                    </div>
+                    <div class="form-group">
+                        <label for="addWeightClass">Weight Class:</label>
+                        <input type="number" id="addWeightClass" name="weightClass" required min="80" max="400">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addDivision">Division:</label>
+                        <input type="text" id="addDivision" name="division" placeholder="e.g., 1A, 2A, 3A">
+                    </div>
+                    <div class="form-group">
+                        <label for="addTeam">Team:</label>
+                        <input type="text" id="addTeam" name="team" placeholder="Team name">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addWins">Wins:</label>
+                        <input type="number" id="addWins" name="wins" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="addLosses">Losses:</label>
+                        <input type="number" id="addLosses" name="losses" min="0">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addPlace">Place:</label>
+                        <input type="text" id="addPlace" name="place" placeholder="e.g., 1st, 2nd, 3rd">
+                    </div>
+                    <div class="form-group">
+                        <label for="addPointsScored">Points Scored:</label>
+                        <input type="number" id="addPointsScored" name="pointsScored" min="0" step="0.5">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="addStatePlacement">State Placement:</label>
+                        <input type="text" id="addStatePlacement" name="statePlacement" placeholder="e.g., 1st, 2nd, 3rd">
+                    </div>
+                    <div class="form-group">
+                        <label for="addGrade">Grade:</label>
+                        <input type="text" id="addGrade" name="grade" placeholder="e.g., 9, 10, 11, 12">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('addSeasonModal')">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-primary" onclick="addSeason()">
+                <i class="fas fa-plus"></i> Add Season
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Season Modal -->
+<div id="deleteSeasonModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-trash"></i> Delete Season</h3>
+            <button class="modal-close" onclick="closeModal('deleteSeasonModal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete this season?</p>
+            <div class="season-info">
+                <strong id="deleteSeasonInfo"></strong>
+            </div>
+            <p class="warning-text">This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('deleteSeasonModal')">
+                Cancel
+            </button>
+            <button type="button" class="btn btn-danger" onclick="deleteSeason()">
+                <i class="fas fa-trash"></i> Delete Season
+            </button>
+        </div>
+    </div>
+</div>

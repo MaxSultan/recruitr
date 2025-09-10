@@ -157,17 +157,16 @@ curl -X POST http://localhost:3000/tournament/scrape \
 
 #### 6. Search Athletes
 ```http
-GET /athletes/search?q=name&limit=50
+GET /athletes/search?q=name
 ```
 Search for athletes by first or last name.
 
 **Parameters:**
 - `q` (required): Search query (name)
-- `limit` (optional): Maximum results (default: 50)
 
 **Example:**
 ```bash
-curl "http://localhost:3000/athletes/search?q=Smith&limit=10"
+curl "http://localhost:3000/athletes/search?q=Smith"
 ```
 
 #### 7. Get Athlete Details
@@ -240,7 +239,7 @@ The application consists of three main modules:
 - Extracts participant results, team information
 - Converts Ruby HTTP/Nokogiri scraping to Node.js Axios/Cheerio
 
-### 3. Express Server (`server.js`)
+### 3. Express Server (`app.js`)
 - Provides RESTful API endpoints
 - Handles request validation and error responses
 - Includes comprehensive logging and CORS support
