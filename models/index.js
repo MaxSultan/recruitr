@@ -1,6 +1,9 @@
 const sequelize = require('../config/sequelize');
 const Athlete = require('./Athlete');
 const Season = require('./Season');
+const Match = require('./Match');
+const SeasonRanking = require('./SeasonRanking');
+const RankingMatch = require('./RankingMatch');
 
 // Define associations
 Athlete.hasMany(Season, {
@@ -13,11 +16,77 @@ Season.belongsTo(Athlete, {
   as: 'athlete',
 });
 
+// Match associations
+Athlete.hasMany(Match, {
+  foreignKey: 'winnerId',
+  as: 'matchWins',
+});
+
+Athlete.hasMany(Match, {
+  foreignKey: 'loserId',
+  as: 'matchLosses',
+});
+
+Match.belongsTo(Athlete, {
+  foreignKey: 'winnerId',
+  as: 'winner',
+});
+
+Match.belongsTo(Athlete, {
+  foreignKey: 'loserId',
+  as: 'loser',
+});
+
+// SeasonRanking associations
+Athlete.hasMany(SeasonRanking, {
+  foreignKey: 'athleteId',
+  as: 'seasonRankings',
+});
+
+SeasonRanking.belongsTo(Athlete, {
+  foreignKey: 'athleteId',
+  as: 'athlete',
+});
+
+// RankingMatch associations
+SeasonRanking.hasMany(RankingMatch, {
+  foreignKey: 'seasonRankingId',
+  as: 'rankingMatches',
+});
+
+RankingMatch.belongsTo(SeasonRanking, {
+  foreignKey: 'seasonRankingId',
+  as: 'seasonRanking',
+});
+
+RankingMatch.belongsTo(Athlete, {
+  foreignKey: 'athleteId',
+  as: 'athlete',
+});
+
+RankingMatch.belongsTo(Athlete, {
+  foreignKey: 'opponentId',
+  as: 'opponent',
+});
+
+Athlete.hasMany(RankingMatch, {
+  foreignKey: 'athleteId',
+  as: 'rankingMatches',
+});
+
+Athlete.hasMany(RankingMatch, {
+  foreignKey: 'opponentId',
+  as: 'opponentMatches',
+});
+
 // Export models and sequelize instance
 module.exports = {
   sequelize,
   Athlete,
   Season,
+  Match,
+  SeasonRanking,
+  RankingMatch,
 };
 
 // Function to sync database (create tables)

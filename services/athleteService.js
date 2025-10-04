@@ -1,4 +1,4 @@
-const { Athlete, Season } = require('../models');
+const { Athlete, Season, RankingMatch, SeasonRanking } = require('../models');
 const { Op } = require('sequelize');
 
 class AthleteService {
@@ -197,8 +197,15 @@ class AthleteService {
         include: [{
           model: Season,
           as: 'seasons',
+        }, {
+          model: SeasonRanking,
+          as: 'seasonRankings',
+          required: false
         }],
-        order: [[{ model: Season, as: 'seasons' }, 'year', 'DESC']],
+        order: [
+          [{ model: Season, as: 'seasons' }, 'year', 'DESC'],
+          [{ model: SeasonRanking, as: 'seasonRankings' }, 'year', 'DESC']
+        ],
       });
 
       return athlete;
@@ -508,6 +515,117 @@ class AthleteService {
       return season;
     } catch (error) {
       console.error(`❌ Error finding exact season match:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get ranking matches for an athlete (audit trail)
+   * @param {number} athleteId - The athlete ID
+   * @param {Object} options - Query options
+   * @param {number|null} options.seasonId - Filter by season ranking ID
+   * @param {number} options.limit - Maximum number of matches to return
+   * @returns {Promise<Array>} Array of ranking matches with opponent data
+   */
+  async getAthleteRankingMatches(athleteId, options = {}) {
+    try {
+      const { seasonId, limit = 100 } = options;
+      
+      const whereClause = {
+        athleteId: athleteId
+      };
+      
+      if (seasonId) {
+        whereClause.seasonRankingId = seasonId;
+      }
+      
+      const rankingMatches = await RankingMatch.findAll({
+        where: whereClause,
+        include: [
+          {
+            model: Athlete,
+            as: 'opponent',
+            attributes: ['id', 'firstName', 'lastName', 'state']
+          },
+          {
+            model: SeasonRanking,
+            as: 'seasonRanking',
+            attributes: ['id', 'year', 'weightClass', 'team', 'division']
+          }
+        ],
+        order: [['matchDate', 'ASC']],
+        limit: limit
+      });
+      
+      // Format the data for the frontend
+      const formattedMatches = rankingMatches.map(match => ({
+        id: match.id,
+        matchDate: match.matchDate,
+        matchResult: match.matchResult,
+        resultType: match.resultType,
+        weight: match.weight,
+        tournamentType: match.tournamentType,
+        
+        // Opponent information
+        opponent: {
+          id: match.opponent.id,
+          name: `${match.opponent.firstName} ${match.opponent.lastName}`,
+          state: match.opponent.state
+        },
+        
+        // Season information
+        season: {
+          id: match.seasonRanking.id,
+          year: match.seasonRanking.year,
+          weightClass: match.seasonRanking.weightClass,
+          team: match.seasonRanking.team,
+          division: match.seasonRanking.division
+        },
+        
+        // Rating evolution
+        elo: {
+          before: match.eloBefore,
+          after: match.eloAfter,
+          change: match.eloChange
+        },
+        
+        glicko: {
+          rating: {
+            before: match.glickoRatingBefore,
+            after: match.glickoRatingAfter,
+            change: match.glickoRatingChange
+          },
+          rd: {
+            before: match.glickoRdBefore,
+            after: match.glickoRdAfter,
+            change: match.glickoRdChange
+          },
+          volatility: {
+            before: match.glickoVolatilityBefore,
+            after: match.glickoVolatilityAfter,
+            change: match.glickoVolatilityChange
+          }
+        },
+        
+        // Match statistics
+        record: {
+          winsBefore: match.winsBefore,
+          lossesBefore: match.lossesBefore,
+          winsAfter: match.winsAfter,
+          lossesAfter: match.lossesAfter
+        },
+        
+        // Opponent ratings at time of match
+        opponentRatings: {
+          eloAtTime: match.opponentEloAtTime,
+          glickoAtTime: match.opponentGlickoAtTime,
+          glickoRdAtTime: match.opponentGlickoRdAtTime
+        }
+      }));
+      
+      return formattedMatches;
+    } catch (error) {
+      console.error(`❌ Error getting athlete ranking matches:`, error);
       throw error;
     }
   }

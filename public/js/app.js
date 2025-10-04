@@ -6,6 +6,7 @@ class AthleteApp {
         this.currentPage = 1;
         this.itemsPerPage = 20;
         this.currentView = 'cards';
+        this.currentSort = { field: 'lastName', order: 'asc' }; // Current sort state
         this.sortBy = 'name';
         this.sortOrder = 'asc';
         this.filters = {
@@ -72,6 +73,15 @@ class AthleteApp {
         document.getElementById('nextPageBtn').addEventListener('click', () => this.changePage(1));
         document.getElementById('pageSizeSelect').addEventListener('change', (e) => this.changePageSize(parseInt(e.target.value)));
 
+        // Table header sorting
+        const sortableHeaders = document.querySelectorAll('th.sortable');
+        sortableHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const sortField = header.dataset.sort;
+                this.sortTable(sortField);
+            });
+        });
+
         // Modal
         document.getElementById('closeModal').addEventListener('click', () => this.closeModal());
         document.getElementById('athleteModal').addEventListener('click', (e) => {
@@ -91,34 +101,37 @@ class AthleteApp {
         document.getElementById('mergeAthleteSearch').addEventListener('input', (e) => this.searchAthletes(e.target.value, 'merge'));
         document.getElementById('executeMergeBtn').addEventListener('click', () => this.executeMerge());
 
-        // Table sorting
-        document.querySelectorAll('th[data-sort]').forEach(th => {
-            th.addEventListener('click', () => {
-                const sortBy = th.dataset.sort;
-                const newOrder = this.sortBy === sortBy && this.sortOrder === 'asc' ? 'desc' : 'asc';
-                this.handleSort(sortBy, newOrder);
-            });
-        });
 
         // Retry button
         document.getElementById('retryBtn').addEventListener('click', () => this.init());
 
         // Tournament scraper
-        document.getElementById('toggleScraperBtn').addEventListener('click', () => this.toggleScraperSection());
-        document.getElementById('scrapeTournamentBtn').addEventListener('click', () => this.scrapeTournament());
-        document.getElementById('viewNewDataBtn').addEventListener('click', () => this.viewNewData());
+        document.getElementById('scrapeDataBtn').addEventListener('click', () => this.viewNewData());
         document.getElementById('scrapeAnotherBtn').addEventListener('click', () => this.resetScraper());
 
-        // Season management modals
-        document.getElementById('closeAddSeasonModal').addEventListener('click', () => this.closeSeasonModals());
-        document.getElementById('cancelAddSeason').addEventListener('click', () => this.closeSeasonModals());
-        document.getElementById('closeEditSeasonModal').addEventListener('click', () => this.closeSeasonModals());
-        document.getElementById('cancelEditSeason').addEventListener('click', () => this.closeSeasonModals());
-        document.getElementById('closeDeleteSeasonModal').addEventListener('click', () => this.closeSeasonModals());
-        document.getElementById('cancelDeleteSeason').addEventListener('click', () => this.closeSeasonModals());
+        // Season management modals (with null checks)
+        const closeAddSeasonModal = document.getElementById('closeAddSeasonModal');
+        if (closeAddSeasonModal) closeAddSeasonModal.addEventListener('click', () => this.closeSeasonModals());
+        
+        const cancelAddSeason = document.getElementById('cancelAddSeason');
+        if (cancelAddSeason) cancelAddSeason.addEventListener('click', () => this.closeSeasonModals());
+        
+        const closeEditSeasonModal = document.getElementById('closeEditSeasonModal');
+        if (closeEditSeasonModal) closeEditSeasonModal.addEventListener('click', () => this.closeSeasonModals());
+        
+        const cancelEditSeason = document.getElementById('cancelEditSeason');
+        if (cancelEditSeason) cancelEditSeason.addEventListener('click', () => this.closeSeasonModals());
+        
+        const closeDeleteSeasonModal = document.getElementById('closeDeleteSeasonModal');
+        if (closeDeleteSeasonModal) closeDeleteSeasonModal.addEventListener('click', () => this.closeSeasonModals());
+        
+        const cancelDeleteSeason = document.getElementById('cancelDeleteSeason');
+        if (cancelDeleteSeason) cancelDeleteSeason.addEventListener('click', () => this.closeSeasonModals());
 
-        // Season form submissions
-        document.getElementById('addSeasonForm').addEventListener('submit', (e) => {
+        // Season form submissions (with null checks)
+        const addSeasonForm = document.getElementById('addSeasonForm');
+        if (addSeasonForm) {
+            addSeasonForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
             const seasonData = {
@@ -134,9 +147,12 @@ class AthleteApp {
                 tournamentId: document.getElementById('addSeasonTournamentId').value || null
             };
             this.addSeason(seasonData);
-        });
+            });
+        }
 
-        document.getElementById('editSeasonForm').addEventListener('submit', (e) => {
+        const editSeasonForm = document.getElementById('editSeasonForm');
+        if (editSeasonForm) {
+            editSeasonForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const seasonId = document.getElementById('editSeasonId').value;
             const seasonData = {
@@ -152,19 +168,26 @@ class AthleteApp {
                 tournamentId: document.getElementById('editSeasonTournamentId').value || null
             };
             this.editSeason(seasonId, seasonData);
-        });
+            });
+        }
 
-        document.getElementById('confirmDeleteSeason').addEventListener('click', () => {
+        const confirmDeleteSeason = document.getElementById('confirmDeleteSeason');
+        if (confirmDeleteSeason) {
+            confirmDeleteSeason.addEventListener('click', () => {
             if (this.seasonToDelete) {
                 this.deleteSeason(this.seasonToDelete);
             }
-        });
-
-        // Close modals on backdrop click
-        ['addSeasonModal', 'editSeasonModal', 'deleteSeasonModal'].forEach(modalId => {
-            document.getElementById(modalId).addEventListener('click', (e) => {
-                if (e.target.id === modalId) this.closeSeasonModals();
             });
+        }
+
+        // Close modals on backdrop click (with null checks)
+        ['addSeasonModal', 'editSeasonModal', 'deleteSeasonModal'].forEach(modalId => {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target.id === modalId) this.closeSeasonModals();
+                });
+            }
         });
 
         // Keyboard shortcuts
@@ -174,6 +197,28 @@ class AthleteApp {
                 e.preventDefault();
                 document.getElementById('searchInput').focus();
             }
+        });
+
+        // Audit trail controls
+        document.getElementById('closeAuditTrailBtn')?.addEventListener('click', this.closeAuditTrail);
+        document.getElementById('athleteSelect')?.addEventListener('change', async (e) => {
+            if (e.target.value) {
+                await this.loadAthleteRankingMatches(parseInt(e.target.value));
+            }
+        });
+        document.getElementById('seasonFilter')?.addEventListener('change', async (e) => {
+            const athleteId = document.getElementById('athleteSelect').value;
+            if (athleteId) {
+                await this.loadAthleteRankingMatches(parseInt(athleteId), e.target.value || null);
+            }
+        });
+        document.getElementById('showCharts')?.addEventListener('change', (e) => {
+            const chartsContainer = document.getElementById('chartsContainer');
+            chartsContainer.style.display = e.target.checked ? 'block' : 'none';
+        });
+        document.getElementById('showDetails')?.addEventListener('change', (e) => {
+            const matchesTimeline = document.getElementById('matchesTimeline');
+            matchesTimeline.style.display = e.target.checked ? 'block' : 'none';
         });
     }
 
@@ -532,6 +577,14 @@ class AthleteApp {
                         <div class="summary-stat-label">Total Points</div>
                         <div class="summary-stat-value">${stats.totalPoints} pts</div>
                     </div>
+                    <div class="summary-stat">
+                        <div class="summary-stat-label">ELO Rating</div>
+                        <div class="summary-stat-value">${athlete.elo || 1500}</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="summary-stat-label">Glicko Rating</div>
+                        <div class="summary-stat-value">${Math.round(athlete.glickoRating || 1500)}</div>
+                    </div>
                 </div>
                 
                 ${improvement.seasonsAnalyzed >= 2 ? `
@@ -562,15 +615,31 @@ class AthleteApp {
             </div>
         `;
 
-        // Add favorite button after innerHTML is set
+        const actionsContainer = document.createElement('div');
+        actionsContainer.className = 'actions-container';  
+        
+        // Add favorite button
         const favoriteBtn = document.createElement('button');
         favoriteBtn.className = `favorite-btn ${athlete.isFavorite ? 'favorited' : ''}`;
         favoriteBtn.innerHTML = '<i class="fas fa-star"></i>';
+        favoriteBtn.title = 'Toggle Favorite';
         favoriteBtn.onclick = (e) => {
             e.stopPropagation();
             this.toggleFavorite(athlete.id);
         };
-        card.appendChild(favoriteBtn);
+        actionsContainer.appendChild(favoriteBtn);
+        
+        // Add chart button next to favorite button
+        const chartBtn = document.createElement('button');
+        chartBtn.className = 'chart-btn';
+        chartBtn.innerHTML = '<i class="fas fa-chart-line"></i>';
+        chartBtn.title = 'View Rating Chart';
+        chartBtn.onclick = (e) => {
+            e.stopPropagation();
+            window.location.href = `/athletes/${athlete.id}/ranking_audit`;
+        };
+        actionsContainer.appendChild(chartBtn);
+        card.appendChild(actionsContainer);
 
         return card;
     }
@@ -610,18 +679,20 @@ class AthleteApp {
                 </button>
             </td>
             <td>${athlete.state || 'N/A'}</td>
+            <td>${stats.teams.length > 0 ? stats.teams[0] : 'N/A'}</td>
             <td><span class="badge badge-info">${stats.totalSeasons}</span></td>
-            <td><span class="badge badge-success">${stats.overallWinRate}%</span></td>
-            <td><span class="badge badge-primary">${stats.totalWins}</span></td>
             <td><span class="${this.getPlacementClass(stats.bestPlacement)}">${stats.bestPlacement}</span></td>
-            <td>${improvement.seasonsAnalyzed >= 2 ? getTrendValue(improvement.winRateImprovement + '%/yr', true) : 'N/A'}</td>
-            <td>${improvement.seasonsAnalyzed >= 2 ? getTrendValue(improvement.placementImprovement + '/yr', true) : 'N/A'}</td>
-            <td><span class="trend-${improvement.improvementTrend}">${getTrendDisplay(improvement.improvementTrend)}</span></td>
-            <td>${stats.totalPoints} pts</td>
+            <td><span class="rating-badge elo">${athlete.elo || 1500}</span></td>
+            <td><span class="rating-badge glicko">${Math.round(athlete.glickoRating || 1500)}</span></td>
             <td>
-                <button class="btn btn-small btn-primary" onclick="event.stopPropagation(); app.showAthleteDetails(${JSON.stringify(athlete).replace(/"/g, '&quot;')})">
-                    <i class="fas fa-eye"></i> Details
-                </button>
+                <div class="action-buttons">
+                    <button class="btn btn-small btn-primary" onclick="event.stopPropagation(); app.showAthleteDetails(${JSON.stringify(athlete).replace(/"/g, '&quot;')})">
+                        <i class="fas fa-eye"></i> Details
+                    </button>
+                    <button class="btn btn-small btn-secondary" onclick="event.stopPropagation(); window.location.href='/athletes/${athlete.id}/ranking_audit'" title="View Rating Audit Trail">
+                        <i class="fas fa-chart-line"></i> Graph
+                    </button>
+                </div>
             </td>
         `;
 
@@ -1249,19 +1320,26 @@ class AthleteApp {
     }
 
     showPagination() {
-        document.getElementById('pagination').style.display = 'block';
+        const pagination = document.getElementById('pagination');
+        if (pagination) pagination.style.display = 'block';
     }
 
     hidePagination() {
-        document.getElementById('pagination').style.display = 'none';
+        const pagination = document.getElementById('pagination');
+        if (pagination) pagination.style.display = 'none';
     }
 
     updateStats() {
         const totalSeasons = this.athletes.reduce((sum, athlete) => sum + athlete.seasons.length, 0);
         
-        document.getElementById('totalAthletes').textContent = this.athletes.length;
-        document.getElementById('totalSeasons').textContent = totalSeasons;
-        document.getElementById('displayedAthletes').textContent = this.filteredAthletes.length;
+        const totalAthletes = document.getElementById('totalAthletes');
+        if (totalAthletes) totalAthletes.textContent = this.athletes.length;
+        
+        const totalSeasonsEl = document.getElementById('totalSeasons');
+        if (totalSeasonsEl) totalSeasonsEl.textContent = totalSeasons;
+        
+        const displayedAthletes = document.getElementById('displayedAthletes');
+        if (displayedAthletes) displayedAthletes.textContent = this.filteredAthletes.length;
     }
 
     updateTableHeaders() {
@@ -1273,6 +1351,25 @@ class AthleteApp {
         if (currentHeader) {
             currentHeader.className = `fas fa-sort-${this.sortOrder === 'asc' ? 'up' : 'down'}`;
         }
+    }
+
+    sortTable(sortField) {
+        // Toggle sort order if clicking the same field
+        if (this.currentSort.field === sortField) {
+            this.currentSort.order = this.currentSort.order === 'asc' ? 'desc' : 'asc';
+        } else {
+            this.currentSort.field = sortField;
+            this.currentSort.order = 'asc';
+        }
+
+        // Update the dropdowns to match
+        const sortBySelect = document.getElementById('sortBy');
+        const sortOrderSelect = document.getElementById('sortOrder');
+        if (sortBySelect) sortBySelect.value = sortField;
+        if (sortOrderSelect) sortOrderSelect.value = this.currentSort.order;
+
+        // Use the existing handleSort method
+        this.handleSort(sortField, this.currentSort.order);
     }
 
     // Utility functions
@@ -1410,45 +1507,65 @@ class AthleteApp {
 
     // State management
     showLoading() {
-        document.getElementById('loadingState').style.display = 'block';
+        const loadingState = document.getElementById('loadingState');
+        if (loadingState) loadingState.style.display = 'block';
         this.hideOtherStates(['loadingState']);
     }
 
     showError() {
-        document.getElementById('errorState').style.display = 'block';
+        const errorState = document.getElementById('errorState');
+        if (errorState) errorState.style.display = 'block';
         this.hideOtherStates(['errorState']);
     }
 
     showEmpty() {
-        document.getElementById('emptyState').style.display = 'block';
+        const emptyState = document.getElementById('emptyState');
+        if (emptyState) emptyState.style.display = 'block';
         this.hideOtherStates(['emptyState']);
     }
 
     hideLoading() {
-        document.getElementById('loadingState').style.display = 'none';
+        const loadingState = document.getElementById('loadingState');
+        if (loadingState) loadingState.style.display = 'none';
     }
 
     hideStates() {
-        document.getElementById('loadingState').style.display = 'none';
-        document.getElementById('errorState').style.display = 'none';
-        document.getElementById('emptyState').style.display = 'none';
+        const loadingState = document.getElementById('loadingState');
+        if (loadingState) loadingState.style.display = 'none';
+        
+        const errorState = document.getElementById('errorState');
+        if (errorState) errorState.style.display = 'none';
+        
+        const emptyState = document.getElementById('emptyState');
+        if (emptyState) emptyState.style.display = 'none';
         
         // Show the appropriate view
-        document.getElementById('cardView').style.display = this.currentView === 'cards' ? 'grid' : 'none';
-        document.getElementById('tableView').style.display = this.currentView === 'table' ? 'block' : 'none';
+        const cardView = document.getElementById('cardView');
+        if (cardView) cardView.style.display = this.currentView === 'cards' ? 'grid' : 'none';
+        
+        const tableView = document.getElementById('tableView');
+        if (tableView) tableView.style.display = this.currentView === 'table' ? 'block' : 'none';
     }
 
     hideOtherStates(except) {
         const states = ['loadingState', 'errorState', 'emptyState'];
         states.forEach(state => {
             if (!except.includes(state)) {
-                document.getElementById(state).style.display = 'none';
+                const element = document.getElementById(state);
+                if (element) {
+                    element.style.display = 'none';
+                }
             }
         });
         
-        document.getElementById('cardView').style.display = 'none';
-        document.getElementById('tableView').style.display = 'none';
-        document.getElementById('pagination').style.display = 'none';
+        const cardView = document.getElementById('cardView');
+        if (cardView) cardView.style.display = 'none';
+        
+        const tableView = document.getElementById('tableView');
+        if (tableView) tableView.style.display = 'none';
+        
+        const pagination = document.getElementById('pagination');
+        if (pagination) pagination.style.display = 'none';
     }
 
     // Favorites functionality
@@ -1710,6 +1827,258 @@ class AthleteApp {
         
         // Focus on tournament ID input
         document.getElementById('tournamentId').focus();
+    }
+
+    // Audit Trail Methods
+    async showAuditTrail(athlete) {
+        try {
+            console.log(`📊 Showing audit trail for ${athlete.firstName} ${athlete.lastName}`);
+            
+            // Show the audit trail section
+            document.getElementById('auditTrailSection').style.display = 'block';
+            
+            // Set the athlete in the selector
+            document.getElementById('athleteSelect').value = athlete.id;
+            
+            // Load the athlete's ranking matches
+            await this.loadAthleteRankingMatches(athlete.id);
+            
+            // Scroll to the audit trail section
+            document.getElementById('auditTrailSection').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+        } catch (error) {
+            console.error('❌ Error showing audit trail:', error);
+            this.showError('Failed to load audit trail. Please try again.');
+        }
+    }
+
+    async loadAthleteRankingMatches(athleteId, seasonId = null) {
+        try {
+            console.log(`📊 Loading ranking matches for athlete ${athleteId}`);
+            
+            const url = `/api/athletes/${athleteId}/ranking-matches${seasonId ? `?seasonId=${seasonId}` : ''}`;
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                this.displayAthleteInfo(result.data[0]?.season?.athlete || {});
+                this.displayRankingMatches(result.data);
+                this.createCharts(result.data);
+            } else {
+                throw new Error(result.error || 'Failed to load ranking matches');
+            }
+            
+        } catch (error) {
+            console.error('❌ Error loading ranking matches:', error);
+            this.showError('Failed to load ranking matches. Please try again.');
+        }
+    }
+
+    displayAthleteInfo(athlete) {
+        const athleteInfo = document.getElementById('athleteInfo');
+        const athleteName = document.getElementById('athleteName');
+        
+        if (athlete && athlete.firstName && athlete.lastName) {
+            athleteName.textContent = `${athlete.firstName} ${athlete.lastName}`;
+            athleteInfo.style.display = 'block';
+        } else {
+            athleteInfo.style.display = 'none';
+        }
+    }
+
+    displayRankingMatches(matches) {
+        const timelineContainer = document.getElementById('timelineContainer');
+        const totalMatches = document.getElementById('totalMatches');
+        
+        totalMatches.textContent = matches.length;
+        
+        if (matches.length === 0) {
+            timelineContainer.innerHTML = '<p class="text-muted">No ranking matches found for this athlete.</p>';
+            return;
+        }
+        
+        timelineContainer.innerHTML = '';
+        
+        matches.forEach(match => {
+            const timelineItem = this.createTimelineItem(match);
+            timelineContainer.appendChild(timelineItem);
+        });
+    }
+
+    createTimelineItem(match) {
+        const item = document.createElement('div');
+        item.className = `timeline-item ${match.matchResult}`;
+        
+        const matchDate = new Date(match.matchDate).toLocaleDateString();
+        const resultClass = match.matchResult === 'win' ? 'win' : 'loss';
+        const resultText = match.matchResult === 'win' ? 'W' : 'L';
+        
+        const eloChange = match.elo.change;
+        const glickoChange = match.glicko.rating.change;
+        
+        const eloChangeClass = eloChange > 0 ? 'positive' : eloChange < 0 ? 'negative' : 'neutral';
+        const glickoChangeClass = glickoChange > 0 ? 'positive' : glickoChange < 0 ? 'negative' : 'neutral';
+        
+        item.innerHTML = `
+            <div class="match-date">${matchDate}</div>
+            <div class="match-opponent">
+                <div class="opponent-name">${match.opponent.name}</div>
+                <div class="opponent-details">
+                    ${match.opponent.state} • ${match.resultType} • ${match.weight}lbs
+                </div>
+            </div>
+            <div class="match-result ${resultClass}">${resultText}</div>
+            <div class="rating-changes">
+                <div class="rating-change ${eloChangeClass}">
+                    <span class="rating-label">ELO:</span>
+                    <span class="rating-value">${eloChange > 0 ? '+' : ''}${eloChange}</span>
+                </div>
+                <div class="rating-change ${glickoChangeClass}">
+                    <span class="rating-label">Glicko:</span>
+                    <span class="rating-value">${glickoChange > 0 ? '+' : ''}${glickoChange.toFixed(1)}</span>
+                </div>
+            </div>
+        `;
+        
+        return item;
+    }
+
+    createCharts(matches) {
+        if (matches.length === 0) return;
+        
+        // Sort matches by date
+        const sortedMatches = [...matches].sort((a, b) => new Date(a.matchDate) - new Date(b.matchDate));
+        
+        // Prepare data for charts
+        const labels = sortedMatches.map(match => new Date(match.matchDate).toLocaleDateString());
+        const eloData = sortedMatches.map(match => match.elo.after);
+        const glickoData = sortedMatches.map(match => match.glicko.rating.after);
+        
+        // Create ELO chart
+        this.createEloChart(labels, eloData);
+        
+        // Create Glicko chart
+        this.createGlickoChart(labels, glickoData);
+    }
+
+    createEloChart(labels, data) {
+        const ctx = document.getElementById('eloChart').getContext('2d');
+        
+        // Destroy existing chart if it exists
+        if (this.eloChart) {
+            this.eloChart.destroy();
+        }
+        
+        this.eloChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'ELO Rating',
+                    data: data,
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'ELO Rating'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Match Date'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+
+    createGlickoChart(labels, data) {
+        const ctx = document.getElementById('glickoChart').getContext('2d');
+        
+        // Destroy existing chart if it exists
+        if (this.glickoChart) {
+            this.glickoChart.destroy();
+        }
+        
+        this.glickoChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Glicko Rating',
+                    data: data,
+                    borderColor: '#764ba2',
+                    backgroundColor: 'rgba(118, 75, 162, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Glicko Rating'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Match Date'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+
+    closeAuditTrail() {
+        document.getElementById('auditTrailSection').style.display = 'none';
+        
+        // Destroy charts to free memory
+        if (this.eloChart) {
+            this.eloChart.destroy();
+            this.eloChart = null;
+        }
+        if (this.glickoChart) {
+            this.glickoChart.destroy();
+            this.glickoChart = null;
+        }
     }
 }
 

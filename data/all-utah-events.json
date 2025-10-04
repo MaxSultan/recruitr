@@ -1,0 +1,2006 @@
+{
+  "timestamp": "2025-09-28T00:59:35.317Z",
+  "totalEvents": 250,
+  "events": [
+    {
+      "index": 224,
+      "dateText": "01/15/2025",
+      "text": "Morgan, UT 26 Wasatch, UT 10",
+      "href": "javascript:openEvent(224)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 225,
+      "dateText": "01/15/2025",
+      "text": "Region 3 girls tournament, UT",
+      "href": "javascript:openEvent(225)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 226,
+      "dateText": "01/15/2025",
+      "text": "Viewmont, UT 59 Northridge, UT 23",
+      "href": "javascript:openEvent(226)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 227,
+      "dateText": "01/15/2025",
+      "text": "Farmington, UT 44 Fremont, UT 29",
+      "href": "javascript:openEvent(227)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 228,
+      "dateText": "01/15/2025",
+      "text": "Viewmont, UT 16 Northridge, UT 12",
+      "href": "javascript:openEvent(228)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 229,
+      "dateText": "01/15/2025",
+      "text": "Mountain Ridge, UT 43 Copper Hills, UT 30",
+      "href": "javascript:openEvent(229)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 230,
+      "dateText": "01/15/2025",
+      "text": "Kanab, UT 47 Parowan, UT 28",
+      "href": "javascript:openEvent(230)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 231,
+      "dateText": "01/15/2025",
+      "text": "Woods Cross, UT 48 Roy, UT 24",
+      "href": "javascript:openEvent(231)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 232,
+      "dateText": "01/15/2025",
+      "text": "Manti, UT 58 Juan Diego Catholic, UT 12",
+      "href": "javascript:openEvent(232)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 233,
+      "dateText": "01/15/2025",
+      "text": "Box Elder, UT 81 Bonneville, UT 0",
+      "href": "javascript:openEvent(233)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 234,
+      "dateText": "01/15/2025",
+      "text": "Box Elder, UT 10 Bonneville, UT 3",
+      "href": "javascript:openEvent(234)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 235,
+      "dateText": "01/15/2025",
+      "text": "Millard, UT 69 North Sevier, UT 0",
+      "href": "javascript:openEvent(235)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 236,
+      "dateText": "01/15/2025",
+      "text": "Corner Canyon, UT 51 Riverton, UT 24",
+      "href": "javascript:openEvent(236)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 237,
+      "dateText": "01/15/2025",
+      "text": "Woods Cross, UT 6 Roy, UT 0",
+      "href": "javascript:openEvent(237)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 238,
+      "dateText": "01/15/2025",
+      "text": "Timpview, UT 50 Springville, UT 29",
+      "href": "javascript:openEvent(238)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 239,
+      "dateText": "01/15/2025",
+      "text": "Springville, UT 18 Timpview, UT 6",
+      "href": "javascript:openEvent(239)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 240,
+      "dateText": "01/15/2025",
+      "text": "Parowan, UT 26 Kanab, UT 21",
+      "href": "javascript:openEvent(240)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 241,
+      "dateText": "01/15/2025",
+      "text": "Carbon, UT 48 Union, UT 32",
+      "href": "javascript:openEvent(241)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 242,
+      "dateText": "01/15/2025",
+      "text": "Union, UT 17 Carbon, UT 6",
+      "href": "javascript:openEvent(242)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 243,
+      "dateText": "01/15/2025",
+      "text": "Clearfield, UT 18 Bountiful, UT 0",
+      "href": "javascript:openEvent(243)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 244,
+      "dateText": "01/15/2025",
+      "text": "Herriman, UT 55 Bingham, UT 24",
+      "href": "javascript:openEvent(244)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 245,
+      "dateText": "01/15/2025",
+      "text": "Ridgeline, UT 43 Malad, ID 37",
+      "href": "javascript:openEvent(245)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 246,
+      "dateText": "01/15/2025",
+      "text": "Granger, UT 16 Cyprus, UT 6",
+      "href": "javascript:openEvent(246)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 247,
+      "dateText": "01/15/2025",
+      "text": "South Summit, UT 58 North Summit, UT 16",
+      "href": "javascript:openEvent(247)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 248,
+      "dateText": "01/15/2025",
+      "text": "Ridgeline, UT 38 Malad, ID 34",
+      "href": "javascript:openEvent(248)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 249,
+      "dateText": "01/15/2025",
+      "text": "San Juan Quad, UT",
+      "href": "javascript:openEvent(249)",
+      "onclick": null,
+      "date": "2025-01-15T07:00:00.000Z"
+    },
+    {
+      "index": 167,
+      "dateText": "01/16/2025",
+      "text": "All City Duals JV Boy, UT",
+      "href": "javascript:openEvent(167)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 168,
+      "dateText": "01/16/2025",
+      "text": "Dove Creek Quad - Ign, DC, Dol, Moab, CO",
+      "href": "javascript:openEvent(168)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 169,
+      "dateText": "01/16/2025",
+      "text": "Bryce valley dual, UT",
+      "href": "javascript:openEvent(169)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 170,
+      "dateText": "01/16/2025",
+      "text": "All City Duals Varsity Boys, UT",
+      "href": "javascript:openEvent(170)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 171,
+      "dateText": "01/16/2025",
+      "text": "Tulsa Nationals, OK",
+      "href": "javascript:openEvent(171)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 172,
+      "dateText": "01/16/2025",
+      "text": "TR Quad JV, ID",
+      "href": "javascript:openEvent(172)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 173,
+      "dateText": "01/16/2025",
+      "text": "Thunder Ridge JV Quad, ID",
+      "href": "javascript:openEvent(173)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 174,
+      "dateText": "01/16/2025",
+      "text": "Thunder Ridge Quad, ID",
+      "href": "javascript:openEvent(174)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 175,
+      "dateText": "01/16/2025",
+      "text": "Bear River, UT 63 Westfield, UT 17",
+      "href": "javascript:openEvent(175)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 176,
+      "dateText": "01/16/2025",
+      "text": "Riverton, UT 62 Mountain Ridge, UT 10",
+      "href": "javascript:openEvent(176)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 177,
+      "dateText": "01/16/2025",
+      "text": "Spanish Fork, UT 66 Cedar Valley, UT 11",
+      "href": "javascript:openEvent(177)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 178,
+      "dateText": "01/16/2025",
+      "text": "Spanish Fork, UT 58 Cedar Valley, UT 6",
+      "href": "javascript:openEvent(178)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 179,
+      "dateText": "01/16/2025",
+      "text": "West Jordan, UT 12 Cyprus, UT 6",
+      "href": "javascript:openEvent(179)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 180,
+      "dateText": "01/16/2025",
+      "text": "West Jordan, UT 39 Cyprus, UT 34",
+      "href": "javascript:openEvent(180)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 181,
+      "dateText": "01/16/2025",
+      "text": "Maple Mountain, UT 16 Timpview, UT 0",
+      "href": "javascript:openEvent(181)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 182,
+      "dateText": "01/16/2025",
+      "text": "Maple Mountain, UT 52 Timpview, UT 23",
+      "href": "javascript:openEvent(182)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 183,
+      "dateText": "01/16/2025",
+      "text": "Timpanogos, UT 73 Provo, UT 4",
+      "href": "javascript:openEvent(183)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 184,
+      "dateText": "01/16/2025",
+      "text": "Syracuse, UT 52 Davis, UT 12",
+      "href": "javascript:openEvent(184)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 185,
+      "dateText": "01/16/2025",
+      "text": "Davis, UT 40 Syracuse, UT 31",
+      "href": "javascript:openEvent(185)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 186,
+      "dateText": "01/16/2025",
+      "text": "Stansbury, UT 18 Jordan, UT 6",
+      "href": "javascript:openEvent(186)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 187,
+      "dateText": "01/16/2025",
+      "text": "Stansbury, UT 71 Jordan, UT 12",
+      "href": "javascript:openEvent(187)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 188,
+      "dateText": "01/16/2025",
+      "text": "South Summit, UT 84 Ogden, UT 0",
+      "href": "javascript:openEvent(188)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 189,
+      "dateText": "01/16/2025",
+      "text": "Snow Canyon, UT 24 Desert Hills, UT 18",
+      "href": "javascript:openEvent(189)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 190,
+      "dateText": "01/16/2025",
+      "text": "Snow Canyon, UT 53 Desert Hills, UT 27",
+      "href": "javascript:openEvent(190)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 191,
+      "dateText": "01/16/2025",
+      "text": "Skyline, UT 6 Brighton, UT 0",
+      "href": "javascript:openEvent(191)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 192,
+      "dateText": "01/16/2025",
+      "text": "Brighton, UT 52 Skyline, UT 28",
+      "href": "javascript:openEvent(192)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 193,
+      "dateText": "01/16/2025",
+      "text": "Wasatch, UT 40 Salem Hills, UT 32",
+      "href": "javascript:openEvent(193)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 194,
+      "dateText": "01/16/2025",
+      "text": "Parowan, UT 53 Piute, UT 23",
+      "href": "javascript:openEvent(194)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 195,
+      "dateText": "01/16/2025",
+      "text": "Hurricane, UT 63 Pine View, UT 12",
+      "href": "javascript:openEvent(195)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 196,
+      "dateText": "01/16/2025",
+      "text": "Hurricane, UT 70 Pine View, UT 6",
+      "href": "javascript:openEvent(196)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 197,
+      "dateText": "01/16/2025",
+      "text": "Tooele, UT 54 Park City, UT 20",
+      "href": "javascript:openEvent(197)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 198,
+      "dateText": "01/16/2025",
+      "text": "Delta, UT 49 North Sanpete, UT 24",
+      "href": "javascript:openEvent(198)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 199,
+      "dateText": "01/16/2025",
+      "text": "Green Canyon, UT 21 Mountain Crest, UT 16",
+      "href": "javascript:openEvent(199)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 200,
+      "dateText": "01/16/2025",
+      "text": "Mountain Crest, UT 42 Green Canyon, UT 32",
+      "href": "javascript:openEvent(200)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 201,
+      "dateText": "01/16/2025",
+      "text": "Ridgeline, UT 49 Logan, UT 20",
+      "href": "javascript:openEvent(201)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 202,
+      "dateText": "01/16/2025",
+      "text": "Taylorsville, UT 0 Hunter, UT 0",
+      "href": "javascript:openEvent(202)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 203,
+      "dateText": "01/16/2025",
+      "text": "Hunter, UT 60 Taylorsville, UT 12",
+      "href": "javascript:openEvent(203)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 204,
+      "dateText": "01/16/2025",
+      "text": "Corner Canyon, UT 61 Herriman, UT 12",
+      "href": "javascript:openEvent(204)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 205,
+      "dateText": "01/16/2025",
+      "text": "Corner Canyon, UT 49 Herriman, UT 22",
+      "href": "javascript:openEvent(205)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 206,
+      "dateText": "01/16/2025",
+      "text": "Grantsville, UT 65 Ben Lomond, UT 17",
+      "href": "javascript:openEvent(206)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 207,
+      "dateText": "01/16/2025",
+      "text": "Fremont, UT 42 Weber, UT 40",
+      "href": "javascript:openEvent(207)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 208,
+      "dateText": "01/16/2025",
+      "text": "Rich, UT 42 Grace, ID 30",
+      "href": "javascript:openEvent(208)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 209,
+      "dateText": "01/16/2025",
+      "text": "Lehi, UT 48 American Fork, UT 31",
+      "href": "javascript:openEvent(209)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 210,
+      "dateText": "01/16/2025",
+      "text": "Farmington, UT 35 Layton, UT 16",
+      "href": "javascript:openEvent(210)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 211,
+      "dateText": "01/16/2025",
+      "text": "Olympus, UT 40 Alta, UT 36",
+      "href": "javascript:openEvent(211)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 212,
+      "dateText": "01/16/2025",
+      "text": "Layton, UT 54 Farmington, UT 15",
+      "href": "javascript:openEvent(212)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 213,
+      "dateText": "01/16/2025",
+      "text": "Juab, UT 42 Canyon View, UT 16",
+      "href": "javascript:openEvent(213)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 214,
+      "dateText": "01/16/2025",
+      "text": "Pleasant Grove, UT 66 Skyridge, UT 18",
+      "href": "javascript:openEvent(214)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 215,
+      "dateText": "01/16/2025",
+      "text": "Snake River, ID 56 Bingham, UT 29",
+      "href": "javascript:openEvent(215)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 216,
+      "dateText": "01/16/2025",
+      "text": "Juab, UT 47 Canyon View, UT 22",
+      "href": "javascript:openEvent(216)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 217,
+      "dateText": "01/16/2025",
+      "text": "American Fork, UT 33 Lehi, UT 21",
+      "href": "javascript:openEvent(217)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 218,
+      "dateText": "01/16/2025",
+      "text": "Alta, UT 35 Olympus, UT 6",
+      "href": "javascript:openEvent(218)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 219,
+      "dateText": "01/16/2025",
+      "text": "Murray, UT 60 Cottonwood, UT 19",
+      "href": "javascript:openEvent(219)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 220,
+      "dateText": "01/16/2025",
+      "text": "Cedar City, UT 54 Dixie, UT 26",
+      "href": "javascript:openEvent(220)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 221,
+      "dateText": "01/16/2025",
+      "text": "Beaver, UT 66 Millard, UT 58",
+      "href": "javascript:openEvent(221)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 222,
+      "dateText": "01/16/2025",
+      "text": "Pleasant Grove, UT 48 Skyridge, UT 28",
+      "href": "javascript:openEvent(222)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 223,
+      "dateText": "01/16/2025",
+      "text": "Millard, UT 56 Beaver, UT 20",
+      "href": "javascript:openEvent(223)",
+      "onclick": null,
+      "date": "2025-01-16T07:00:00.000Z"
+    },
+    {
+      "index": 166,
+      "dateText": "01/17/2025",
+      "text": "Juan Diego Catholic, UT 48 American Leadership Academy, UT 24",
+      "href": "javascript:openEvent(166)",
+      "onclick": null,
+      "date": "2025-01-17T07:00:00.000Z"
+    },
+    {
+      "index": 141,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "Thoman Invite, UT",
+      "href": "javascript:openEvent(141)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 142,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "2025 Thoman Soda Ash Memorial JV Boys, WY",
+      "href": "javascript:openEvent(142)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 143,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "2025 Thoman Soda Ash Memorial Dual, WY",
+      "href": "javascript:openEvent(143)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 144,
+      "dateText": "01/18/2025",
+      "text": "2025 Colter Abely Mid Season Classic, CT",
+      "href": "javascript:openEvent(144)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 145,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "Chaparral Invite, NV",
+      "href": "javascript:openEvent(145)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 146,
+      "dateText": "01/18/2025",
+      "text": "Davie Swensen Invitational 2025 JV, UT",
+      "href": "javascript:openEvent(146)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 147,
+      "dateText": "01/18/2025",
+      "text": "Davie Swensen Invitational 2025, UT",
+      "href": "javascript:openEvent(147)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 148,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "Enterprise High School Tournament, UT",
+      "href": "javascript:openEvent(148)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 149,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "Trojan Takedown JV, UT",
+      "href": "javascript:openEvent(149)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 150,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "Trojan Takedown, UT",
+      "href": "javascript:openEvent(150)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 151,
+      "dateText": "01/18/2025",
+      "text": "2025 Bruin Duals, UT",
+      "href": "javascript:openEvent(151)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 152,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "Battle for the Buckle JV, UT",
+      "href": "javascript:openEvent(152)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 153,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "Battle for the Buckle, UT",
+      "href": "javascript:openEvent(153)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 154,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "6A JV Boys State Duals Round Robin, UT",
+      "href": "javascript:openEvent(154)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 155,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "6A Dual State Championships, UT",
+      "href": "javascript:openEvent(155)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 156,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "2024 Tiger Grizz Invitational, ID",
+      "href": "javascript:openEvent(156)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 157,
+      "dateText": "01/18/2025",
+      "text": "2025 Tiger Grizz 2nd Chance, ID",
+      "href": "javascript:openEvent(157)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 158,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "2025 Tiger Grizz JV Invitational, ID",
+      "href": "javascript:openEvent(158)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 159,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "North Sevier Boys Invitational 2025, UT",
+      "href": "javascript:openEvent(159)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 160,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "North Sevier JV Boys High School Invitational, UT",
+      "href": "javascript:openEvent(160)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 161,
+      "dateText": "01/18/2025",
+      "text": "Milford Invitational, UT",
+      "href": "javascript:openEvent(161)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 162,
+      "dateText": "01/18/2025",
+      "text": "Milford Invitational, UT",
+      "href": "javascript:openEvent(162)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 163,
+      "dateText": "01/18/2025",
+      "text": "Fight At The Fork 2025, CO",
+      "href": "javascript:openEvent(163)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 164,
+      "dateText": "01/18/2025",
+      "text": "Tiger Brawl Second Chance Tournament, ID",
+      "href": "javascript:openEvent(164)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 165,
+      "dateText": "01/17 - 01/18/2025",
+      "text": "Tiger Brawl Tournament, ID",
+      "href": "javascript:openEvent(165)",
+      "onclick": null,
+      "date": "2025-01-18T07:00:00.000Z"
+    },
+    {
+      "index": 140,
+      "dateText": "01/20/2025",
+      "text": "Taylorsville, UT 41 Granger, UT 33",
+      "href": "javascript:openEvent(140)",
+      "onclick": null,
+      "date": "2025-01-20T07:00:00.000Z"
+    },
+    {
+      "index": 122,
+      "dateText": "01/21/2025",
+      "text": "Cottonwood, UT 35 Providence Hall, UT 35",
+      "href": "javascript:openEvent(122)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 123,
+      "dateText": "01/21/2025",
+      "text": "Bear River, UT 72 Tooele, UT 10",
+      "href": "javascript:openEvent(123)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 124,
+      "dateText": "01/21/2025",
+      "text": "Bear River, UT 65 Tooele, UT 12",
+      "href": "javascript:openEvent(124)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 125,
+      "dateText": "01/21/2025",
+      "text": "West, UT 18 Murray, UT 9",
+      "href": "javascript:openEvent(125)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 126,
+      "dateText": "01/21/2025",
+      "text": "Murray, UT 40 West, UT 35",
+      "href": "javascript:openEvent(126)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 127,
+      "dateText": "01/21/2025",
+      "text": "Bonneville, UT 24 Grantsville, UT 15",
+      "href": "javascript:openEvent(127)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 128,
+      "dateText": "01/21/2025",
+      "text": "Ogden, UT 12 Bonneville, UT 11",
+      "href": "javascript:openEvent(128)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 129,
+      "dateText": "01/21/2025",
+      "text": "Grantsville, UT 13 Ogden, UT 12",
+      "href": "javascript:openEvent(129)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 130,
+      "dateText": "01/21/2025",
+      "text": "Carbon, UT 49 Emery, UT 16",
+      "href": "javascript:openEvent(130)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 131,
+      "dateText": "01/21/2025",
+      "text": "Carbon, UT 52 Emery, UT 30",
+      "href": "javascript:openEvent(131)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 132,
+      "dateText": "01/21/2025",
+      "text": "Maple Mountain, UT 12 West Jordan, UT 9",
+      "href": "javascript:openEvent(132)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 133,
+      "dateText": "01/21/2025",
+      "text": "Maple Mountain, UT 53 West Jordan, UT 30",
+      "href": "javascript:openEvent(133)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 134,
+      "dateText": "01/21/2025",
+      "text": "Layton, UT 38 Wasatch, UT 16",
+      "href": "javascript:openEvent(134)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 135,
+      "dateText": "01/21/2025",
+      "text": "Layton, UT 56 Wasatch, UT 15",
+      "href": "javascript:openEvent(135)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 136,
+      "dateText": "01/21/2025",
+      "text": "Cedar City, UT 47 Hurricane, UT 46",
+      "href": "javascript:openEvent(136)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 137,
+      "dateText": "01/21/2025",
+      "text": "Hurricane, UT 45 Cedar City, UT 26",
+      "href": "javascript:openEvent(137)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 138,
+      "dateText": "01/21/2025",
+      "text": "Crimson Cliffs High, UT 64 Dixie, UT 15",
+      "href": "javascript:openEvent(138)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 139,
+      "dateText": "01/21/2025",
+      "text": "Delta, UT 47 Manti, UT 24",
+      "href": "javascript:openEvent(139)",
+      "onclick": null,
+      "date": "2025-01-21T07:00:00.000Z"
+    },
+    {
+      "index": 85,
+      "dateText": "01/22/2025",
+      "text": "American Leadership Academy, UT 42 St Joseph Catholic High School, UT 30",
+      "href": "javascript:openEvent(85)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 86,
+      "dateText": "01/22/2025",
+      "text": "Cedar Valley, UT 16 Grantsville, UT 15",
+      "href": "javascript:openEvent(86)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 87,
+      "dateText": "01/22/2025",
+      "text": "Cedar Valley, UT 42 Grantsville, UT 40",
+      "href": "javascript:openEvent(87)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 88,
+      "dateText": "01/22/2025",
+      "text": "West Jordan, UT 12 Kearns, UT 3",
+      "href": "javascript:openEvent(88)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 89,
+      "dateText": "01/22/2025",
+      "text": "Kearns, UT 53 West Jordan, UT 24",
+      "href": "javascript:openEvent(89)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 90,
+      "dateText": "01/22/2025",
+      "text": "Layton, UT 26 Weber, UT 0",
+      "href": "javascript:openEvent(90)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 91,
+      "dateText": "01/22/2025",
+      "text": "Layton, UT 70 Weber, UT 12",
+      "href": "javascript:openEvent(91)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 92,
+      "dateText": "01/22/2025",
+      "text": "Viewmont, UT 16 Clearfield, UT 0",
+      "href": "javascript:openEvent(92)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 93,
+      "dateText": "01/22/2025",
+      "text": "Viewmont, UT 63 Clearfield, UT 15",
+      "href": "javascript:openEvent(93)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 94,
+      "dateText": "01/22/2025",
+      "text": "Uintah, UT 63 Payson, UT 6",
+      "href": "javascript:openEvent(94)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 95,
+      "dateText": "01/22/2025",
+      "text": "Syracuse, UT 9 Syracuse, UT 0",
+      "href": "javascript:openEvent(95)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 96,
+      "dateText": "01/22/2025",
+      "text": "Syracuse, UT 69 Fremont, UT 12",
+      "href": "javascript:openEvent(96)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 97,
+      "dateText": "01/22/2025",
+      "text": "Westfield, UT 18 Stansbury, UT 12",
+      "href": "javascript:openEvent(97)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 98,
+      "dateText": "01/22/2025",
+      "text": "Stansbury, UT 43 Westfield, UT 36",
+      "href": "javascript:openEvent(98)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 99,
+      "dateText": "01/22/2025",
+      "text": "Bountiful, UT 52 Woods Cross, UT 30",
+      "href": "javascript:openEvent(99)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 100,
+      "dateText": "01/22/2025",
+      "text": "Bountiful, UT 18 Woods Cross, UT 0",
+      "href": "javascript:openEvent(100)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 101,
+      "dateText": "01/22/2025",
+      "text": "Box Elder, UT 71 Roy, UT 0",
+      "href": "javascript:openEvent(101)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 102,
+      "dateText": "01/22/2025",
+      "text": "Box Elder, UT 65 Roy, UT 12",
+      "href": "javascript:openEvent(102)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 103,
+      "dateText": "01/22/2025",
+      "text": "Riverton, UT 61 Copper Hills, UT 18",
+      "href": "javascript:openEvent(103)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 104,
+      "dateText": "01/22/2025",
+      "text": "Park City, UT 10 Brighton, UT 0",
+      "href": "javascript:openEvent(104)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 105,
+      "dateText": "01/22/2025",
+      "text": "Brighton, UT 42 Park City, UT 33",
+      "href": "javascript:openEvent(105)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 106,
+      "dateText": "01/22/2025",
+      "text": "Northridge, UT 71 Bonneville, UT 6",
+      "href": "javascript:openEvent(106)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 107,
+      "dateText": "01/22/2025",
+      "text": "Northridge, UT 6 Bonneville, UT 0",
+      "href": "javascript:openEvent(107)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 108,
+      "dateText": "01/22/2025",
+      "text": "Canyon View, UT 73 Dixie, UT 6",
+      "href": "javascript:openEvent(108)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 109,
+      "dateText": "01/22/2025",
+      "text": "Canyon View, UT 50 Dixie, UT 6",
+      "href": "javascript:openEvent(109)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 110,
+      "dateText": "01/22/2025",
+      "text": "Carbon, UT 49 Richfield, UT 22",
+      "href": "javascript:openEvent(110)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 111,
+      "dateText": "01/22/2025",
+      "text": "Carbon, UT 55 Richfield, UT 18",
+      "href": "javascript:openEvent(111)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 112,
+      "dateText": "01/22/2025",
+      "text": "Juab, UT 61 Morgan, UT 15",
+      "href": "javascript:openEvent(112)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 113,
+      "dateText": "01/22/2025",
+      "text": "Juab, UT 51 Morgan, UT 21",
+      "href": "javascript:openEvent(113)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 114,
+      "dateText": "01/22/2025",
+      "text": "Cyprus, UT 18 Hillcrest, UT 0",
+      "href": "javascript:openEvent(114)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 115,
+      "dateText": "01/22/2025",
+      "text": "Cyprus, UT 68 Hillcrest, UT 11",
+      "href": "javascript:openEvent(115)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 116,
+      "dateText": "01/22/2025",
+      "text": "Corner Canyon, UT 62 Bingham, UT 6",
+      "href": "javascript:openEvent(116)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 117,
+      "dateText": "01/22/2025",
+      "text": "Corner Canyon, UT 63 Bingham, UT 14",
+      "href": "javascript:openEvent(117)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 118,
+      "dateText": "01/22/2025",
+      "text": "Herriman, UT 47 Mountain Ridge, UT 20",
+      "href": "javascript:openEvent(118)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 119,
+      "dateText": "01/22/2025",
+      "text": "Herriman, UT 22 Mountain Ridge, UT 0",
+      "href": "javascript:openEvent(119)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 120,
+      "dateText": "01/22/2025",
+      "text": "Davis, UT 49 Farmington, UT 26",
+      "href": "javascript:openEvent(120)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 121,
+      "dateText": "01/22/2025",
+      "text": "Davis, UT 41 Farmington, UT 25",
+      "href": "javascript:openEvent(121)",
+      "onclick": null,
+      "date": "2025-01-22T07:00:00.000Z"
+    },
+    {
+      "index": 38,
+      "dateText": "01/23/2025",
+      "text": "Ridgeline, UT 65 Sky View, UT 12",
+      "href": "javascript:openEvent(38)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 39,
+      "dateText": "01/23/2025",
+      "text": "Westlake, UT 42 Skyridge, UT 16",
+      "href": "javascript:openEvent(39)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 40,
+      "dateText": "01/23/2025",
+      "text": "Westlake, UT 57 Skyridge, UT 15",
+      "href": "javascript:openEvent(40)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 41,
+      "dateText": "01/23/2025",
+      "text": "Syracuse, UT 54 Farmington, UT 18",
+      "href": "javascript:openEvent(41)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 42,
+      "dateText": "01/23/2025",
+      "text": "Green Canyon, UT 21 Westfield, UT 0",
+      "href": "javascript:openEvent(42)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 43,
+      "dateText": "01/23/2025",
+      "text": "Green Canyon, UT 40 Westfield, UT 37",
+      "href": "javascript:openEvent(43)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 44,
+      "dateText": "01/23/2025",
+      "text": "Crimson Cliffs High, UT 43 Snow Canyon, UT 29",
+      "href": "javascript:openEvent(44)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 45,
+      "dateText": "01/23/2025",
+      "text": "Cedar Valley, UT 68 Hillcrest, UT 11",
+      "href": "javascript:openEvent(45)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 46,
+      "dateText": "01/23/2025",
+      "text": "Wasatch, UT 4 Timpview, UT 0",
+      "href": "javascript:openEvent(46)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 47,
+      "dateText": "01/23/2025",
+      "text": "Wasatch, UT 58 Timpview, UT 23",
+      "href": "javascript:openEvent(47)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 48,
+      "dateText": "01/23/2025",
+      "text": "Stansbury, UT 52 Tooele, UT 6",
+      "href": "javascript:openEvent(48)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 49,
+      "dateText": "01/23/2025",
+      "text": "Stansbury, UT 44 Tooele, UT 32",
+      "href": "javascript:openEvent(49)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 50,
+      "dateText": "01/23/2025",
+      "text": "Maple Mountain, UT 33 Springville, UT 12",
+      "href": "javascript:openEvent(50)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 51,
+      "dateText": "01/23/2025",
+      "text": "Maple Mountain, UT 59 Springville, UT 24",
+      "href": "javascript:openEvent(51)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 52,
+      "dateText": "01/23/2025",
+      "text": "Spanish Fork, UT 74 Salem Hills, UT 6",
+      "href": "javascript:openEvent(52)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 53,
+      "dateText": "01/23/2025",
+      "text": "Riverton, UT 54 Bingham, UT 24",
+      "href": "javascript:openEvent(53)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 54,
+      "dateText": "01/23/2025",
+      "text": "Box Elder, UT 55 Viewmont, UT 13",
+      "href": "javascript:openEvent(54)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 55,
+      "dateText": "01/23/2025",
+      "text": "Box Elder, UT 59 Viewmont, UT 14",
+      "href": "javascript:openEvent(55)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 56,
+      "dateText": "01/23/2025",
+      "text": "Provo, UT 42 American Leadership Academy, UT 33",
+      "href": "javascript:openEvent(56)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 57,
+      "dateText": "01/23/2025",
+      "text": "Pleasant Grove, UT 40 American Fork, UT 3",
+      "href": "javascript:openEvent(57)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 58,
+      "dateText": "01/23/2025",
+      "text": "Pleasant Grove, UT 48 American Fork, UT 26",
+      "href": "javascript:openEvent(58)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 59,
+      "dateText": "01/23/2025",
+      "text": "Olympus, UT 12 West, UT 12",
+      "href": "javascript:openEvent(59)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 60,
+      "dateText": "01/23/2025",
+      "text": "Olympus, UT 50 West, UT 27",
+      "href": "javascript:openEvent(60)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 61,
+      "dateText": "01/23/2025",
+      "text": "Mountain View, UT 56 Timpanogos, UT 50",
+      "href": "javascript:openEvent(61)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 62,
+      "dateText": "01/23/2025",
+      "text": "Timpanogos, UT 39 Mountain View, UT 28",
+      "href": "javascript:openEvent(62)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 63,
+      "dateText": "01/23/2025",
+      "text": "South Summit, UT 43 Morgan, UT 31",
+      "href": "javascript:openEvent(63)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 64,
+      "dateText": "01/23/2025",
+      "text": "Carbon, UT 59 North Sanpete, UT 16",
+      "href": "javascript:openEvent(64)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 65,
+      "dateText": "01/23/2025",
+      "text": "Carbon, UT 44 North Sanpete, UT 23",
+      "href": "javascript:openEvent(65)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 66,
+      "dateText": "01/23/2025",
+      "text": "Morgan, UT 27 South Summit, UT 5",
+      "href": "javascript:openEvent(66)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 67,
+      "dateText": "01/23/2025",
+      "text": "Bear River, UT 52 Logan, UT 19",
+      "href": "javascript:openEvent(67)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 68,
+      "dateText": "01/23/2025",
+      "text": "Cedar City, UT 63 Desert Hills, UT 14",
+      "href": "javascript:openEvent(68)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 69,
+      "dateText": "01/23/2025",
+      "text": "Lehi, UT 68 Lone Peak, UT 37",
+      "href": "javascript:openEvent(69)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 70,
+      "dateText": "01/23/2025",
+      "text": "Lehi, UT 39 Lone Peak, UT 33",
+      "href": "javascript:openEvent(70)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 71,
+      "dateText": "01/23/2025",
+      "text": "Layton, UT 73 Fremont, UT 6",
+      "href": "javascript:openEvent(71)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 72,
+      "dateText": "01/23/2025",
+      "text": "Juan Diego Catholic, UT 42 Ben Lomond, UT 17",
+      "href": "javascript:openEvent(72)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 73,
+      "dateText": "01/23/2025",
+      "text": "Jordan, UT 42 Murray, UT 24",
+      "href": "javascript:openEvent(73)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 74,
+      "dateText": "01/23/2025",
+      "text": "Copper Hills, UT 0 Herriman, UT 0",
+      "href": "javascript:openEvent(74)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 75,
+      "dateText": "01/23/2025",
+      "text": "Herriman, UT 62 Copper Hills, UT 15",
+      "href": "javascript:openEvent(75)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 76,
+      "dateText": "01/23/2025",
+      "text": "Jordan, UT 57 Murray, UT 29",
+      "href": "javascript:openEvent(76)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 77,
+      "dateText": "01/23/2025",
+      "text": "Highland, UT 15 Brighton, UT 11",
+      "href": "javascript:openEvent(77)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 78,
+      "dateText": "01/23/2025",
+      "text": "Corner Canyon, UT 70 Mountain Ridge, UT 5",
+      "href": "javascript:openEvent(78)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 79,
+      "dateText": "01/23/2025",
+      "text": "Corner Canyon, UT 57 Mountain Ridge, UT 17",
+      "href": "javascript:openEvent(79)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 80,
+      "dateText": "01/23/2025",
+      "text": "Park City, UT 53 Cottonwood, UT 21",
+      "href": "javascript:openEvent(80)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 81,
+      "dateText": "01/23/2025",
+      "text": "Brighton, UT 38 Highland, UT 32",
+      "href": "javascript:openEvent(81)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 82,
+      "dateText": "01/23/2025",
+      "text": "Hurricane, UT 56 Dixie, UT 24",
+      "href": "javascript:openEvent(82)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 83,
+      "dateText": "01/23/2025",
+      "text": "Davis, UT 36 Weber, UT 0",
+      "href": "javascript:openEvent(83)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 84,
+      "dateText": "01/23/2025",
+      "text": "Davis, UT 64 Weber, UT 12",
+      "href": "javascript:openEvent(84)",
+      "onclick": null,
+      "date": "2025-01-23T07:00:00.000Z"
+    },
+    {
+      "index": 35,
+      "dateText": "01/24/2025",
+      "text": "Mountain Ridge, UT 38 Farmington, UT 36",
+      "href": "javascript:openEvent(35)",
+      "onclick": null,
+      "date": "2025-01-24T07:00:00.000Z"
+    },
+    {
+      "index": 36,
+      "dateText": "01/24/2025",
+      "text": "Uintah, UT 50 Wasatch, UT 18",
+      "href": "javascript:openEvent(36)",
+      "onclick": null,
+      "date": "2025-01-24T07:00:00.000Z"
+    },
+    {
+      "index": 37,
+      "dateText": "01/24/2025",
+      "text": "Uintah, UT 44 Wasatch, UT 26",
+      "href": "javascript:openEvent(37)",
+      "onclick": null,
+      "date": "2025-01-24T07:00:00.000Z"
+    },
+    {
+      "index": 27,
+      "dateText": "01/25/2025",
+      "text": "2025 Gary Tiger Invitational, CT",
+      "href": "javascript:openEvent(27)",
+      "onclick": null,
+      "date": "2025-01-25T07:00:00.000Z"
+    },
+    {
+      "index": 28,
+      "dateText": "01/25/2025",
+      "text": "2025 UHSAA 1A Boys Division A, UT",
+      "href": "javascript:openEvent(28)",
+      "onclick": null,
+      "date": "2025-01-25T07:00:00.000Z"
+    },
+    {
+      "index": 29,
+      "dateText": "01/25/2025",
+      "text": "High Country Classic, UT",
+      "href": "javascript:openEvent(29)",
+      "onclick": null,
+      "date": "2025-01-25T07:00:00.000Z"
+    },
+    {
+      "index": 30,
+      "dateText": "01/24 - 01/25/2025",
+      "text": "Lisbon Storhaug Invite, ND",
+      "href": "javascript:openEvent(30)",
+      "onclick": null,
+      "date": "2025-01-25T07:00:00.000Z"
+    },
+    {
+      "index": 31,
+      "dateText": "01/25/2025",
+      "text": "2025 UHSAA 2A Boys Division B, UT",
+      "href": "javascript:openEvent(31)",
+      "onclick": null,
+      "date": "2025-01-25T07:00:00.000Z"
+    },
+    {
+      "index": 32,
+      "dateText": "01/25/2025",
+      "text": "2025 UHSAA 2A  Boys Division B, UT",
+      "href": "javascript:openEvent(32)",
+      "onclick": null,
+      "date": "2025-01-25T07:00:00.000Z"
+    },
+    {
+      "index": 33,
+      "dateText": "01/25/2025",
+      "text": "2025 UHSAA 1A Boys Division B, UT",
+      "href": "javascript:openEvent(33)",
+      "onclick": null,
+      "date": "2025-01-25T07:00:00.000Z"
+    },
+    {
+      "index": 34,
+      "dateText": "01/25/2025",
+      "text": "2025 UHSAA 2A Boys Division A, UT",
+      "href": "javascript:openEvent(34)",
+      "onclick": null,
+      "date": "2025-01-25T07:00:00.000Z"
+    },
+    {
+      "index": 26,
+      "dateText": "01/25 - 01/26/2025",
+      "text": "2025 UHSAA 1A boys Division B, UT",
+      "href": "javascript:openEvent(26)",
+      "onclick": null,
+      "date": "2025-01-26T07:00:00.000Z"
+    },
+    {
+      "index": 25,
+      "dateText": "01/27/2025",
+      "text": "Layton, UT 45 Syracuse, UT 18",
+      "href": "javascript:openEvent(25)",
+      "onclick": null,
+      "date": "2025-01-27T07:00:00.000Z"
+    },
+    {
+      "index": 17,
+      "dateText": "01/29 - 01/30/2025",
+      "text": "UHSAA 5a Division B Championships, UT",
+      "href": "javascript:openEvent(17)",
+      "onclick": null,
+      "date": "2025-01-30T07:00:00.000Z"
+    },
+    {
+      "index": 18,
+      "dateText": "01/29 - 01/30/2025",
+      "text": "2025 UHSAA 6A Boys Division B, UT",
+      "href": "javascript:openEvent(18)",
+      "onclick": null,
+      "date": "2025-01-30T07:00:00.000Z"
+    },
+    {
+      "index": 19,
+      "dateText": "01/29 - 01/30/2025",
+      "text": "2025 UHSAA 4A Boys Division B, UT",
+      "href": "javascript:openEvent(19)",
+      "onclick": null,
+      "date": "2025-01-30T07:00:00.000Z"
+    },
+    {
+      "index": 20,
+      "dateText": "01/29 - 01/30/2025",
+      "text": "2025 UHSAA 5A Boys Division A, UT",
+      "href": "javascript:openEvent(20)",
+      "onclick": null,
+      "date": "2025-01-30T07:00:00.000Z"
+    },
+    {
+      "index": 21,
+      "dateText": "01/29 - 01/30/2025",
+      "text": "Divisional State Qualifier, UT",
+      "href": "javascript:openEvent(21)",
+      "onclick": null,
+      "date": "2025-01-30T07:00:00.000Z"
+    },
+    {
+      "index": 22,
+      "dateText": "01/29 - 01/30/2025",
+      "text": "2025 UHSAA 6A Boys Division A, UT",
+      "href": "javascript:openEvent(22)",
+      "onclick": null,
+      "date": "2025-01-30T07:00:00.000Z"
+    },
+    {
+      "index": 23,
+      "dateText": "01/29 - 01/30/2025",
+      "text": "2025 UHSAA 4A Boys Division A, UT",
+      "href": "javascript:openEvent(23)",
+      "onclick": null,
+      "date": "2025-01-30T07:00:00.000Z"
+    },
+    {
+      "index": 24,
+      "dateText": "01/29 - 01/30/2025",
+      "text": "Divisionals, UT",
+      "href": "javascript:openEvent(24)",
+      "onclick": null,
+      "date": "2025-01-30T07:00:00.000Z"
+    },
+    {
+      "index": 15,
+      "dateText": "01/31 - 02/01/2025",
+      "text": "2025 UHSAA Boys 3A Division B, UT",
+      "href": "javascript:openEvent(15)",
+      "onclick": null,
+      "date": "2025-02-01T07:00:00.000Z"
+    },
+    {
+      "index": 16,
+      "dateText": "01/31 - 02/01/2025",
+      "text": "2025 UHSAA 3A Boys Division A, UT",
+      "href": "javascript:openEvent(16)",
+      "onclick": null,
+      "date": "2025-02-01T07:00:00.000Z"
+    },
+    {
+      "index": 14,
+      "dateText": "02/05/2025",
+      "text": "Tri Metro Conference JV, MN",
+      "href": "javascript:openEvent(14)",
+      "onclick": null,
+      "date": "2025-02-05T07:00:00.000Z"
+    },
+    {
+      "index": 12,
+      "dateText": "02/06 - 02/07/2025",
+      "text": "2A UHSAA State Tournament, UT",
+      "href": "javascript:openEvent(12)",
+      "onclick": null,
+      "date": "2025-02-07T07:00:00.000Z"
+    },
+    {
+      "index": 13,
+      "dateText": "02/06 - 02/07/2025",
+      "text": "2025 UHSAA 1A/2A Boys State Championships, UT",
+      "href": "javascript:openEvent(13)",
+      "onclick": null,
+      "date": "2025-02-07T07:00:00.000Z"
+    },
+    {
+      "index": 11,
+      "dateText": "02/08/2025",
+      "text": "Dick Hoover Pool Tournament, OH",
+      "href": "javascript:openEvent(11)",
+      "onclick": null,
+      "date": "2025-02-08T07:00:00.000Z"
+    },
+    {
+      "index": 10,
+      "dateText": "02/10/2025",
+      "text": "JV State, UT",
+      "href": "javascript:openEvent(10)",
+      "onclick": null,
+      "date": "2025-02-10T07:00:00.000Z"
+    },
+    {
+      "index": 7,
+      "dateText": "02/11 - 02/12/2025",
+      "text": "2025 UHSAA Boys 5A State Championships, UT",
+      "href": "javascript:openEvent(7)",
+      "onclick": null,
+      "date": "2025-02-12T07:00:00.000Z"
+    },
+    {
+      "index": 8,
+      "dateText": "02/11 - 02/12/2025",
+      "text": "2025 UHSAA Boys 4A State Championships, UT",
+      "href": "javascript:openEvent(8)",
+      "onclick": null,
+      "date": "2025-02-12T07:00:00.000Z"
+    },
+    {
+      "index": 9,
+      "dateText": "02/11 - 02/12/2025",
+      "text": "State Tournament, UT",
+      "href": "javascript:openEvent(9)",
+      "onclick": null,
+      "date": "2025-02-12T07:00:00.000Z"
+    },
+    {
+      "index": 4,
+      "dateText": "02/12 - 02/13/2025",
+      "text": "2025 UHSAA Boys 6A State Championships, UT",
+      "href": "javascript:openEvent(4)",
+      "onclick": null,
+      "date": "2025-02-13T07:00:00.000Z"
+    },
+    {
+      "index": 5,
+      "dateText": "02/12 - 02/13/2025",
+      "text": "2025 UHSAA Boys 3A State Championships, UT",
+      "href": "javascript:openEvent(5)",
+      "onclick": null,
+      "date": "2025-02-13T07:00:00.000Z"
+    },
+    {
+      "index": 6,
+      "dateText": "02/12 - 02/13/2025",
+      "text": "6A States, UT",
+      "href": "javascript:openEvent(6)",
+      "onclick": null,
+      "date": "2025-02-13T07:00:00.000Z"
+    },
+    {
+      "index": 3,
+      "dateText": "02/25/2025",
+      "text": "2025 uhsaa 1a boys division b, UT",
+      "href": "javascript:openEvent(3)",
+      "onclick": null,
+      "date": "2025-02-25T07:00:00.000Z"
+    },
+    {
+      "index": 2,
+      "dateText": "02/28 - 03/01/2025",
+      "text": "Hoover Districts, OH",
+      "href": "javascript:openEvent(2)",
+      "onclick": null,
+      "date": "2025-03-01T07:00:00.000Z"
+    },
+    {
+      "index": 0,
+      "dateText": "03/08 - 03/09/2025",
+      "text": "2025 New England Interscholastic Girls Wrestling Championship, RI",
+      "href": "javascript:openEvent(0)",
+      "onclick": null,
+      "date": "2025-03-09T07:00:00.000Z"
+    },
+    {
+      "index": 1,
+      "dateText": "03/08 - 03/09/2025",
+      "text": "2025 New England Interscholastic Wrestling Championship, RI",
+      "href": "javascript:openEvent(1)",
+      "onclick": null,
+      "date": "2025-03-09T07:00:00.000Z"
+    }
+  ]
+}

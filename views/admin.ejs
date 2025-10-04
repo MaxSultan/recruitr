@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css?v=<%= Date.now() %>">
+    <link rel="stylesheet" href="/css/admin.css?v=<%= Date.now() %>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <header class="admin-header">
+            <h1><i class="fas fa-cogs"></i> Admin Dashboard</h1>
+            <div class="admin-nav">
+                <a href="/" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to App
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Scraping Parameters -->
+            <section class="scraping-parameters">
+                <h2><i class="fas fa-sliders-h"></i> Scraping Parameters</h2>
+                <div class="parameters-grid">
+                    <div class="parameter-group">
+                        <label for="seasonSelect">
+                            <i class="fas fa-calendar"></i> Season
+                        </label>
+                        <select id="seasonSelect" class="parameter-select">
+                            <% seasons.forEach(season => { %>
+                                <option value="<%= season %>" <%= selectedSeason === season ? 'selected' : '' %>>
+                                    <%= season %>
+                                </option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="stateSelect">
+                            <i class="fas fa-map-marker-alt"></i> State
+                        </label>
+                        <select id="stateSelect" class="parameter-select">
+                            <% states.forEach(state => { %>
+                                <option value="<%= state %>" <%= selectedState === state ? 'selected' : '' %>>
+                                    <%= state %>
+                                </option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="levelSelect">
+                            <i class="fas fa-graduation-cap"></i> Level
+                        </label>
+                        <select id="levelSelect" class="parameter-select">
+                            <% levels.forEach(level => { %>
+                                <option value="<%= level %>" <%= selectedLevel === level ? 'selected' : '' %>>
+                                    <%= level %>
+                                </option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    
+                    <div class="parameter-group">
+                        <label for="sexSelect">
+                            <i class="fas fa-users"></i> Sex
+                        </label>
+                        <select id="sexSelect" class="parameter-select">
+                            <% sexes.forEach(sex => { %>
+                                <option value="<%= sex %>" <%= selectedSex === sex ? 'selected' : '' %>>
+                                    <%= sex %>
+                                </option>
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Control Panel -->
+            <section class="control-panel">
+                <h2><i class="fas fa-play-circle"></i> Scraping Control</h2>
+                <div class="control-buttons">
+                    <button id="startScraping" class="btn btn-success">
+                        <i class="fas fa-play"></i> Start Scraping
+                    </button>
+                    <button id="stopScraping" class="btn btn-danger">
+                        <i class="fas fa-stop"></i> Stop Scraping
+                    </button>
+                    <button id="refreshStatus" class="btn btn-primary">
+                        <i class="fas fa-sync"></i> Refresh Status
+                    </button>
+                </div>
+                <div id="statusMessage" class="status-message"></div>
+            </section>
+
+            <!-- Progress Overview -->
+            <section class="progress-overview">
+                <h2><i class="fas fa-chart-line"></i> Progress Overview</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="processedEvents"><%= state.processedEvents ? state.processedEvents.length : 0 %></div>
+                            <div class="stat-label">Events Processed</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalMatches"><%= totalMatches %></div>
+                            <div class="stat-label">Total Matches</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalAthletes"><%= totalAthletes %></div>
+                            <div class="stat-label">Total Athletes</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="progressPercentage">
+                                <%= state.totalEvents > 0 ? Math.round((state.processedEvents ? state.processedEvents.length : 0) / state.totalEvents * 100) : 0 %>%
+                            </div>
+                            <div class="stat-label">Progress</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Bar -->
+            <section class="progress-section">
+                <h2><i class="fas fa-tasks"></i> Scraping Progress</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: <%= state.totalEvents > 0 ? (state.processedEvents ? state.processedEvents.length : 0) / state.totalEvents * 100 : 0 %>%"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressText">
+                            <%= state.processedEvents ? state.processedEvents.length : 0 %> / <%= state.totalEvents || 0 %> events
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Detailed Stats -->
+            <section class="detailed-stats">
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <h3>Current Event Index</h3>
+                        <div class="stat-value-large" id="currentEventIndex"><%= state.currentEventIndex || 0 %></div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <h3>Failed Events</h3>
+                        <div class="stat-value-large" id="failedEvents"><%= state.failedEvents ? state.failedEvents.length : 0 %></div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <h3>Skipped Events</h3>
+                        <div class="stat-value-large" id="skippedEvents"><%= state.skippedEvents ? state.skippedEvents.length : 0 %></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Matches -->
+            <section class="recent-matches">
+                <h2><i class="fas fa-clock"></i> Recent Matches</h2>
+                <div class="matches-list">
+                    <% if (recentMatches && recentMatches.length > 0) { %>
+                        <% recentMatches.forEach(match => { %>
+                            <div class="match-item">
+                                <div class="match-result <%= match.matchResult === 'win' ? 'win' : 'loss' %>">
+                                    <%= match.matchResult === 'win' ? 'W' : 'L' %>
+                                </div>
+                                <div class="match-details">
+                                    <div class="match-athlete">
+                                        <%= match.athlete ? `${match.athlete.firstName} ${match.athlete.lastName}` : 'Unknown' %>
+                                    </div>
+                                    <div class="match-info">
+                                        <%= match.resultType %> • <%= match.weight %> lbs • <%= new Date(match.createdAt).toLocaleDateString() %>
+                                    </div>
+                                </div>
+                                <div class="match-rating">
+                                    ELO: <%= match.eloAfter || 1500 %>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-info-circle"></i>
+                            <p>No matches found</p>
+                        </div>
+                    <% } %>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Auto-refresh status every 10 seconds
+        let refreshInterval;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Start auto-refresh
+            startAutoRefresh();
+            
+            // Bind event listeners
+            document.getElementById('startScraping').addEventListener('click', startScraping);
+            document.getElementById('stopScraping').addEventListener('click', stopScraping);
+            document.getElementById('refreshStatus').addEventListener('click', refreshStatus);
+        });
+
+        async function startScraping() {
+            try {
+                // Get current parameter values
+                const season = document.getElementById('seasonSelect').value;
+                const state = document.getElementById('stateSelect').value;
+                const level = document.getElementById('levelSelect').value;
+                const sex = document.getElementById('sexSelect').value;
+                
+                const response = await fetch('/admin/start-scraping', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        season,
+                        state,
+                        level,
+                        sex
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('Scraping started successfully!', 'success');
+                } else {
+                    showStatus('Failed to start scraping: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showStatus('Error starting scraping: ' + error.message, 'error');
+            }
+        }
+
+        async function stopScraping() {
+            try {
+                const response = await fetch('/admin/stop-scraping', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showStatus('Scraping stopped successfully!', 'success');
+                } else {
+                    showStatus('Failed to stop scraping: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showStatus('Error stopping scraping: ' + error.message, 'error');
+            }
+        }
+
+        async function refreshStatus() {
+            try {
+                const response = await fetch('/admin/status');
+                const result = await response.json();
+                
+                if (result.success) {
+                    updateDashboard(result.data);
+                    showStatus('Status refreshed', 'success');
+                } else {
+                    showStatus('Failed to refresh status: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showStatus('Error refreshing status: ' + error.message, 'error');
+            }
+        }
+
+        function updateDashboard(data) {
+            // Update stats
+            document.getElementById('processedEvents').textContent = data.state.processedEvents ? data.state.processedEvents.length : 0;
+            document.getElementById('totalMatches').textContent = data.totalMatches;
+            document.getElementById('totalAthletes').textContent = data.totalAthletes;
+            
+            // Update progress
+            const totalEvents = data.state.totalEvents || 0;
+            const processedEvents = data.state.processedEvents ? data.state.processedEvents.length : 0;
+            const percentage = totalEvents > 0 ? Math.round(processedEvents / totalEvents * 100) : 0;
+            
+            document.getElementById('progressPercentage').textContent = percentage + '%';
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `${processedEvents} / ${totalEvents} events`;
+            
+            // Update detailed stats
+            document.getElementById('currentEventIndex').textContent = data.state.currentEventIndex || 0;
+            document.getElementById('failedEvents').textContent = data.state.failedEvents ? data.state.failedEvents.length : 0;
+            document.getElementById('skippedEvents').textContent = data.state.skippedEvents ? data.state.skippedEvents.length : 0;
+        }
+
+        function showStatus(message, type) {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status-message ${type}`;
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                statusEl.textContent = '';
+                statusEl.className = 'status-message';
+            }, 3000);
+        }
+
+        function startAutoRefresh() {
+            refreshInterval = setInterval(refreshStatus, 10000); // Refresh every 10 seconds
+        }
+
+        function stopAutoRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -37,6 +37,19 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
+// Athlete audit trail page
+app.get('/athletes/:id/ranking_audit', require('./controllers/athleteController').getAthleteRankingAuditPage);
+
+// Admin routes
+const adminController = require('./controllers/adminController');
+app.get('/admin', adminController.getAdminDashboard.bind(adminController));
+app.get('/admin/test', (req, res) => {
+  res.json({ message: 'Admin test route working' });
+});
+app.get('/admin/status', adminController.getScrapingStatus.bind(adminController));
+app.post('/admin/start-scraping', adminController.startScraping.bind(adminController));
+app.post('/admin/stop-scraping', adminController.stopScraping.bind(adminController));
+
 // 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({

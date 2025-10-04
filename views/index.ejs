@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recruitr - Wrestling Tournament Tracker</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css?v=<%= Date.now() %>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -17,6 +17,11 @@
                     Recruitr
                 </h1>
                 <p class="app-subtitle">Wrestling Tournament Data Tracker</p>
+                <div class="admin-link">
+                    <a href="/admin" class="btn btn-secondary btn-small">
+                        <i class="fas fa-cogs"></i> Admin Dashboard
+                    </a>
+                </div>
             </div>
         </header>
 
@@ -92,6 +97,31 @@
                 <button id="mergeAthletesBtn" class="btn btn-warning">
                     <i class="fas fa-compress-arrows-alt"></i> Merge Athletes
                 </button>
+            </div>
+        </div>
+
+        <!-- Sorting Controls -->
+        <div class="sorting-section">
+            <div class="sorting-controls">
+                <div class="sort-control">
+                    <label for="sortBy">Sort by:</label>
+                    <select id="sortBy">
+                        <option value="name">Name</option>
+                        <option value="state">State</option>
+                        <option value="totalSeasons">Total Seasons</option>
+                        <option value="overallWinRate">Overall Win Rate</option>
+                        <option value="totalWins">Total Wins</option>
+                        <option value="bestPlacement">Best Placement</option>
+                        <option value="totalPoints">Total Points</option>
+                    </select>
+                </div>
+                <div class="sort-control">
+                    <label for="sortOrder">Order:</label>
+                    <select id="sortOrder">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -175,15 +205,31 @@
                     <table id="athletesTable" class="athletes-table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>State</th>
-                                <th>Team</th>
-                                <th>Seasons</th>
-                                <th>Best Record</th>
+                                <th class="sortable" data-sort="name">
+                                    Name <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="sortable" data-sort="state">
+                                    State <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="sortable" data-sort="team">
+                                    Team <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="sortable" data-sort="totalSeasons">
+                                    Seasons <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="sortable" data-sort="bestPlacement">
+                                    Best Record <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="sortable" data-sort="elo">
+                                    ELO Rating <i class="fas fa-sort"></i>
+                                </th>
+                                <th class="sortable" data-sort="glickoRating">
+                                    Glicko Rating <i class="fas fa-sort"></i>
+                                </th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="athletesTableBody">
                             <!-- Table rows will be populated here -->
                         </tbody>
                     </table>
@@ -199,6 +245,83 @@
                 <button id="nextPageBtn" class="btn btn-small" disabled>
                     Next <i class="fas fa-chevron-right"></i>
                 </button>
+                <select id="pageSizeSelect" class="page-size-select">
+                    <option value="10">10 per page</option>
+                    <option value="20" selected>20 per page</option>
+                    <option value="50">50 per page</option>
+                    <option value="100">100 per page</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Athlete Audit Trail Section -->
+        <div id="auditTrailSection" class="audit-trail-section" style="display: none;">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-line"></i> Athlete Rating Evolution</h2>
+                <button id="closeAuditTrailBtn" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+            
+            <div class="audit-trail-controls">
+                <div class="athlete-selector">
+                    <label for="athleteSelect">Select Athlete:</label>
+                    <select id="athleteSelect">
+                        <option value="">Choose an athlete...</option>
+                    </select>
+                </div>
+                
+                <div class="season-filter">
+                    <label for="seasonFilter">Season:</label>
+                    <select id="seasonFilter">
+                        <option value="">All Seasons</option>
+                    </select>
+                </div>
+                
+                <div class="view-options">
+                    <label>
+                        <input type="checkbox" id="showCharts" checked> Show Charts
+                    </label>
+                    <label>
+                        <input type="checkbox" id="showDetails" checked> Show Match Details
+                    </label>
+                </div>
+            </div>
+            
+            <div class="athlete-info" id="athleteInfo" style="display: none;">
+                <h3 id="athleteName"></h3>
+                <div class="athlete-stats">
+                    <div class="stat">
+                        <span class="stat-label">Current ELO:</span>
+                        <span class="stat-value" id="currentElo">-</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Current Glicko:</span>
+                        <span class="stat-value" id="currentGlicko">-</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Total Matches:</span>
+                        <span class="stat-value" id="totalMatches">-</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="charts-container" id="chartsContainer">
+                <div class="chart-section">
+                    <h4>ELO Rating Evolution</h4>
+                    <canvas id="eloChart" width="800" height="300"></canvas>
+                </div>
+                <div class="chart-section">
+                    <h4>Glicko Rating Evolution</h4>
+                    <canvas id="glickoChart" width="800" height="300"></canvas>
+                </div>
+            </div>
+            
+            <div class="matches-timeline" id="matchesTimeline">
+                <h4>Match Timeline</h4>
+                <div class="timeline-container" id="timelineContainer">
+                    <!-- Match timeline items will be populated here -->
+                </div>
             </div>
         </div>
     </div>
@@ -207,6 +330,7 @@
     <%- include('partials/modals') %>
 
     <!-- Scripts -->
-    <script src="/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/js/app.js?v=<%= Date.now() %>"></script>
 </body>
 </html>
