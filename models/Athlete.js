@@ -32,6 +32,48 @@ const Athlete = sequelize.define('Athlete', {
     defaultValue: false,
     comment: 'Whether this athlete is marked as a favorite',
   },
+  // Current Rating Fields (from migration)
+  elo: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 1500,
+    comment: 'Current ELO rating'
+  },
+  glickoRating: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+    defaultValue: 1500,
+    comment: 'Current Glicko rating'
+  },
+  glickoRd: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+    defaultValue: 200,
+    comment: 'Current Glicko Rating Deviation'
+  },
+  glickoVolatility: {
+    type: DataTypes.DECIMAL(10, 6),
+    allowNull: false,
+    defaultValue: 0.06,
+    comment: 'Current Glicko volatility'
+  },
+  wins: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    comment: 'Total number of wins'
+  },
+  losses: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    comment: 'Total number of losses'
+  },
+  lastMatchDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    comment: 'Date of most recent match'
+  }
 }, {
   tableName: 'athletes',
   timestamps: true,

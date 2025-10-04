@@ -76,6 +76,84 @@ class AthleteController {
   }
 
   /**
+   * Get athlete ranking matches (audit trail)
+   */
+  async getAthleteRankingMatches(req, res) {
+    try {
+      const { id } = req.params;
+      const { seasonId, limit = 100 } = req.query;
+      
+      if (!id || isNaN(parseInt(id))) {
+        return res.status(400).json({
+          error: 'Valid athlete ID is required',
+          timestamp: new Date().toISOString()
+        });
+      }
+      
+      console.log(`📊 Fetching ranking matches for athlete ${id}...`);
+      
+      const rankingMatches = await athleteService.getAthleteRankingMatches(parseInt(id), {
+        seasonId: seasonId ? parseInt(seasonId) : null,
+        limit: parseInt(limit)
+      });
+      
+      console.log(`✅ Found ${rankingMatches.length} ranking matches for athlete ${id}`);
+      
+      res.json({
+        success: true,
+        data: rankingMatches,
+        count: rankingMatches.length,
+        athleteId: parseInt(id),
+        timestamp: new Date().toISOString()
+      });
+    } catch (error) {
+      console.error('❌ Error fetching athlete ranking matches:', error);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to fetch athlete ranking matches',
+        message: error.message,
+        timestamp: new Date().toISOString()
+      });
+    }
+  }
+
+  /**
+   * Get athlete ranking audit page
+   */
+  async getAthleteRankingAuditPage(req, res) {
+    try {
+      const { id } = req.params;
+      
+      if (!id || isNaN(parseInt(id))) {
+        return res.status(400).render('error', {
+          error: 'Valid athlete ID is required'
+        });
+      }
+      
+      console.log(`📊 Rendering ranking audit page for athlete ${id}...`);
+      
+      const athlete = await athleteService.getAthleteWithSeasons(parseInt(id));
+      
+      if (!athlete) {
+        return res.status(404).render('error', {
+          error: 'Athlete not found'
+        });
+      }
+      
+      console.log(`✅ Rendering audit page for: ${athlete.firstName} ${athlete.lastName}`);
+      
+      res.render('athlete-audit', {
+        athlete: athlete
+      });
+    } catch (error) {
+      console.error('❌ Error rendering athlete ranking audit page:', error);
+      res.status(500).render('error', {
+        error: 'Failed to load athlete ranking audit page'
+      });
+    }
+  }
+
+  /**
    * Toggle athlete favorite status
    */
   async toggleFavorite(req, res) {
